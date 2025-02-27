@@ -18,7 +18,9 @@ Text goes here. Refer to the Markdown Quick Reference: Help -> Markdown Quick Re
 Text goes here.
 
 ```{r}
-# Code goes here
+library(readxl)
+pre_covid <- read_excel("../data/pre_covid.xlsx")
+view(pre_covid)
 ```
 
 ## 3. Data analysis plan
