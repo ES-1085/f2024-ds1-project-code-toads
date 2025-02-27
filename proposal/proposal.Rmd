@@ -12,7 +12,10 @@ library(dplyr)
 
 ## 1. Introduction
 
-Text goes here. Refer to the Markdown Quick Reference: Help -> Markdown Quick Reference. 
+Our data comes from Promise Early Education, a Head Start and Early Head Start program that works with vulnerable children to encourage educational growth and measures their development in six key areas: social/emotional, physical, and language development, as well literacy, cognitive, and mathematics knowledge and skills. These datasets measure scores in these various domains for children aged 0-5 and determines whether they are meeting expectations based on the expected scores for each age range. The variables include bottom expected scores, top expected scores, # of children, average score, # of children below score range, % of children below score range, # of children in score range, % of children in score range, the domain tested, age of children, the season, and the year.
+
+We are hoping to explore the various trends seen within the promise early education, particularly the effect that the COVID-19 pandemic had on the several categories of child development in the years that followed it.
+
 
 ## 2. Data
 
