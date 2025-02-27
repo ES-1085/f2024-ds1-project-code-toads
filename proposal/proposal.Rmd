@@ -1,6 +1,6 @@
 ---
-title: "Project proposal"
-author: "Team name"
+title: "Promise Early Education"
+author: "Fred, Soren, Katie K"
 output: html_document
 ---
 
