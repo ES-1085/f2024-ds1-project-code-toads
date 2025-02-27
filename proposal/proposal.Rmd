@@ -20,7 +20,7 @@ Text goes here.
 ```{r}
 library(readxl)
 pre_covid <- read_excel("../data/pre_covid.xlsx")
-view(pre_covid)
+View(pre_covid)
 ```
 
 ## 3. Data analysis plan
