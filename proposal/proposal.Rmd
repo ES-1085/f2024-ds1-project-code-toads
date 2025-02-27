@@ -7,6 +7,7 @@ output: html_document
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+library(dplyr)
 ```
 
 ## 1. Introduction
@@ -21,6 +22,15 @@ Text goes here.
 library(readxl)
 pre_covid <- read_excel("../data/pre_covid.xlsx")
 view(pre_covid)
+
+# Remove rows where all values are NA
+clean_rows <- pre_covid %>% filter(rowSums(is.na(.)) < ncol(pre_covid))
+
+# Remove columns where all values are NA
+clean_data_1 <- clean_rows %>% select(where(~ any(!is.na(.))))
+
+view(clean_data_1)
+
 ```
 
 ## 3. Data analysis plan
