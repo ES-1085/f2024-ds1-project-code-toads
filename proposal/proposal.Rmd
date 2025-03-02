@@ -24,7 +24,7 @@ Text goes here.
 ```{r}
 library(readxl)
 pre_covid <- read_excel("../data/pre_covid.xlsx")
-view(pre_covid)
+#view(pre_covid)
 
 # Remove rows where all values are NA
 clean_rows <- pre_covid %>% filter(rowSums(is.na(.)) < ncol(pre_covid))
@@ -32,7 +32,45 @@ clean_rows <- pre_covid %>% filter(rowSums(is.na(.)) < ncol(pre_covid))
 # Remove columns where all values are NA
 clean_data_1 <- clean_rows %>% select(where(~ any(!is.na(.))))
 
-view(clean_data_1)
+
+filled_labels <- clean_data_1 %>% fill(everything(), .direction = "down")
+colnames(filled_labels)[1] <- "category"
+view(filled_labels)
+
+
+math_precovid <- filled_labels %>% 
+  filter(category == "Mathematics")
+
+view(math_precovid)
+
+soc_precovid <- filled_labels %>% 
+  filter(category == "Social-Emotional")
+
+view(soc_precovid)
+
+phys_precovid <- filled_labels %>% 
+  filter(category == "Physical")
+
+view(phys_precovid)
+
+language_precovid <- filled_labels %>% 
+  filter(category == "Language")
+
+view(language_precovid)
+
+
+cognitive_precovid <- filled_labels %>% 
+  filter(category == "Cognitive")
+
+view(cognitive_precovid)
+
+
+literacy_precovid <- filled_labels %>% 
+  filter(category == "Literacy")
+
+view(literacy_precovid)
+
+
 
 ```
 
