@@ -19,7 +19,6 @@ We are hoping to explore the various trends seen within the promise early educat
 
 ## 2. Data
 
-Text goes here.
 
 ```{r}
 library(readxl)
