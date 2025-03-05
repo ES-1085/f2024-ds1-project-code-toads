@@ -40,34 +40,34 @@ view(filled_labels)
 math_precovid <- filled_labels %>% 
   filter(category == "Mathematics")
 
-view(math_precovid)
+glimpse(math_precovid)
 
 soc_precovid <- filled_labels %>% 
   filter(category == "Social-Emotional")
 
-view(soc_precovid)
+glimpse(soc_precovid)
 
 phys_precovid <- filled_labels %>% 
   filter(category == "Physical")
 
-view(phys_precovid)
+glimpse(phys_precovid)
 
 language_precovid <- filled_labels %>% 
   filter(category == "Language")
 
-view(language_precovid)
+glimpse(language_precovid)
 
 
 cognitive_precovid <- filled_labels %>% 
   filter(category == "Cognitive")
 
-view(cognitive_precovid)
+glimpse(cognitive_precovid)
 
 
 literacy_precovid <- filled_labels %>% 
   filter(category == "Literacy")
 
-view(literacy_precovid)
+glimpse(literacy_precovid)
 
 
 
