@@ -75,7 +75,7 @@ view(literacy_precovid)
 
 ## 3. Data analysis plan
 
-Text goes here.
+
 
 
 ```{r}
