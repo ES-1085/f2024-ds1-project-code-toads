@@ -24,14 +24,7 @@ Text goes here.
 ```{r}
 library(readxl)
 pre_covid <- read_excel("../data/pre_covid.xlsx")
-<<<<<<< HEAD
-#view(pre_covid)
-=======
-<<<<<<< HEAD
-View(pre_covid)
-=======
-view(pre_covid)
->>>>>>> 6135148969395f5f54f4d4c2d270c1d9c6c28728
+
 
 # Remove rows where all values are NA
 clean_rows <- pre_covid %>% filter(rowSums(is.na(.)) < ncol(pre_covid))
