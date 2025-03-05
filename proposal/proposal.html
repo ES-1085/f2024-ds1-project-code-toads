@@ -356,18 +356,30 @@ display: none;
 
 
 <pre class="r"><code>library(tidyverse)
-library(broom)</code></pre>
+library(broom)
+library(dplyr)</code></pre>
 <div id="introduction" class="section level2">
 <h2>1. Introduction</h2>
-<p>Text goes here. Refer to the Markdown Quick Reference: Help -&gt;
-Markdown Quick Reference.</p>
+<p>Our data comes from Promise Early Education, a Head Start and Early
+Head Start program that works with vulnerable children to encourage
+educational growth and measures their development in six key areas:
+social/emotional, physical, and language development, as well literacy,
+cognitive, and mathematics knowledge and skills. These datasets measure
+scores in these various domains for children aged 0-5 and determines
+whether they are meeting expectations based on the expected scores for
+each age range. The variables include bottom expected scores, top
+expected scores, # of children, average score, # of children below score
+range, % of children below score range, # of children in score range, %
+of children in score range, the domain tested, age of children, the
+season, and the year.</p>
+<p>We are hoping to explore the various trends seen within the promise
+early education, particularly the effect that the COVID-19 pandemic had
+on the several categories of child development in the years that
+followed it.</p>
 </div>
 <div id="data" class="section level2">
 <h2>2. Data</h2>
 <p>Text goes here.</p>
-<<<<<<< HEAD
-<pre class="r"><code># Code goes here</code></pre>
-=======
 <pre class="r"><code>library(readxl)
 pre_covid &lt;- read_excel(&quot;../data/pre_covid.xlsx&quot;)</code></pre>
 <pre><code>## New names:
@@ -391,8 +403,49 @@ pre_covid &lt;- read_excel(&quot;../data/pre_covid.xlsx&quot;)</code></pre>
 ## • `` -&gt; `...19`
 ## • `` -&gt; `...20`
 ## • `` -&gt; `...21`</code></pre>
-<pre class="r"><code>view(pre_covid)</code></pre>
->>>>>>> 929fb041ce9d62a4856b82117ae327fea3c3334a
+<pre class="r"><code># Remove rows where all values are NA
+clean_rows &lt;- pre_covid %&gt;% filter(rowSums(is.na(.)) &lt; ncol(pre_covid))
+
+# Remove columns where all values are NA
+clean_data_1 &lt;- clean_rows %&gt;% select(where(~ any(!is.na(.))))
+
+
+filled_labels &lt;- clean_data_1 %&gt;% fill(everything(), .direction = &quot;down&quot;)
+colnames(filled_labels)[1] &lt;- &quot;category&quot;
+view(filled_labels)
+
+
+math_precovid &lt;- filled_labels %&gt;% 
+  filter(category == &quot;Mathematics&quot;)
+
+view(math_precovid)
+
+soc_precovid &lt;- filled_labels %&gt;% 
+  filter(category == &quot;Social-Emotional&quot;)
+
+view(soc_precovid)
+
+phys_precovid &lt;- filled_labels %&gt;% 
+  filter(category == &quot;Physical&quot;)
+
+view(phys_precovid)
+
+language_precovid &lt;- filled_labels %&gt;% 
+  filter(category == &quot;Language&quot;)
+
+view(language_precovid)
+
+
+cognitive_precovid &lt;- filled_labels %&gt;% 
+  filter(category == &quot;Cognitive&quot;)
+
+view(cognitive_precovid)
+
+
+literacy_precovid &lt;- filled_labels %&gt;% 
+  filter(category == &quot;Literacy&quot;)
+
+view(literacy_precovid)</code></pre>
 </div>
 <div id="data-analysis-plan" class="section level2">
 <h2>3. Data analysis plan</h2>
