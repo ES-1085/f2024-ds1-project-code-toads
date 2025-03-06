@@ -22,8 +22,23 @@ We are hoping to explore the various trends seen within the promise early educat
 
 ```{r}
 library(readxl)
-pre_covid <- read_excel("../data/pre_covid.xlsx")
 
+pre_covid_fall_2018_19 <- read_excel("../data/pre_covid.xlsx", 
+    sheet = "3-4", range = "A3:I81")
+
+pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
+  rename(`Category` = `...1`)
+
+pre_covid_fall_2018_19[1, 1] <- "Social-Emotional"
+
+
+pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
+  filter(!Category %in% c("Threes SE", "Threes"))
+
+pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
+  fill(Category, .direction = "down")
+
+View(pre_covid_fall_2018_19)
 
 # Remove rows where all values are NA
 clean_rows <- pre_covid %>% filter(rowSums(is.na(.)) < ncol(pre_covid))
