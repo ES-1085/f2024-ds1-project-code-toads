@@ -24,19 +24,32 @@ We are hoping to explore the various trends seen within the promise early educat
 library(readxl)
 
 pre_covid_fall_2018_19 <- read_excel("../data/pre_covid.xlsx", 
-    sheet = "3-4", range = "A3:I81")
+    sheet = "3-4", range = "A3:I81") |>
+  janitor::clean_names()
+  
 
 pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
-  rename(`Category` = `...1`)
+  rename(`Category` = `x1`)
 
 pre_covid_fall_2018_19[1, 1] <- "Social-Emotional"
 
 
 pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
-  filter(!Category %in% c("Threes SE", "Threes"))
+  filter(!Category %in% c("Threes SE", "Threes")) 
 
 pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
   fill(Category, .direction = "down")
+
+pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
+  filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
+
+
+pre_covid_fall_2018_19 |>
+  rename('% Meeting / Exceeding' = as.double(' % Meeting / Exceeding')) |>
+#  ggplot(aes(x = "%Meeting/Exceeding")) +
+ # geom_histogram() +
+  #facet_grid(~Category)
+
 
 View(pre_covid_fall_2018_19)
 
@@ -83,6 +96,7 @@ literacy_precovid <- filled_labels %>%
   filter(category == "Literacy")
 
 glimpse(literacy_precovid)
+
 
 
 
