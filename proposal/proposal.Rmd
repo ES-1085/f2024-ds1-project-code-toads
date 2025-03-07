@@ -20,7 +20,7 @@ We are hoping to explore the various trends seen within the promise early educat
 ## 2. Data
 
 
-```{r}
+```{r data-cleanup}
 library(readxl)
 
 pre_covid_fall_2018_19 <- read_excel("../data/pre_covid.xlsx", 
@@ -29,30 +29,40 @@ pre_covid_fall_2018_19 <- read_excel("../data/pre_covid.xlsx",
   
 
 pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
-  rename(`Category` = `x1`)
+  rename(`category` = `x1`)
 
 pre_covid_fall_2018_19[1, 1] <- "Social-Emotional"
 
 
 pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
-  filter(!Category %in% c("Threes SE", "Threes")) 
+  filter(!category %in% c("Threes SE", "Threes")) 
 
 pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
-  fill(Category, .direction = "down")
+  fill(category, .direction = "down") |>
+  drop_na(bottom)
 
 pre_covid_fall_2018_19 <- pre_covid_fall_2018_19 |>
   filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
 
+pre_covid_fall_2018_19$percent_meeting_exceeding <- as.numeric(pre_covid_fall_2018_19$percent_meeting_exceeding)
 
-pre_covid_fall_2018_19 |>
-  rename('% Meeting / Exceeding' = as.double(' % Meeting / Exceeding')) |>
-#  ggplot(aes(x = "%Meeting/Exceeding")) +
- # geom_histogram() +
-  #facet_grid(~Category)
+pre_covid_fall_2018_19_mean <- pre_covid_fall_2018_19 |>
+  group_by(category) |>
+  summarize_at(vars("percent_meeting_exceeding"), mean, na.rm = TRUE)
+
+pre_covid_fall_2018_19_mean
+
+#attempt to make a bar plot for %meeting/exceeding averages between each category
+#ggplot(pre_covid_fall_2018_19_mean, aes(x=percent_meeting_exceeding)) +
+ # geom_bar()+
+  #facet_wrap(~category)
 
 
 View(pre_covid_fall_2018_19)
 
+```
+
+```{r category-divide}
 # Remove rows where all values are NA
 clean_rows <- pre_covid %>% filter(rowSums(is.na(.)) < ncol(pre_covid))
 
@@ -96,8 +106,6 @@ literacy_precovid <- filled_labels %>%
   filter(category == "Literacy")
 
 glimpse(literacy_precovid)
-
-
 
 
 ```
