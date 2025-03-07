@@ -60,7 +60,7 @@ pre_covid_fall_2018_19_mean
   #facet_wrap(~category)
 
 
-View(pre_covid_fall_2018_19)
+glimpse(pre_covid_fall_2018_19)
 
 ```
 

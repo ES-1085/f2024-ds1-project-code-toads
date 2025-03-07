@@ -1,9 +1,6 @@
 # data
 
-Place data file(s) in this folder.
-
-Then, include codebooks (variables, and their descriptions) for your data file(s)
-using the following format.
+This dataset has 9 columns and 60 observations
 
 ## pre_covid_fall_2018_19.csv
 
