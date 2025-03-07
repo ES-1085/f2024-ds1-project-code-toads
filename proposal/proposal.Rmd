@@ -23,6 +23,8 @@ We are hoping to explore the various trends seen within the promise early educat
 ```{r data-cleanup}
 library(readxl)
 
+write_csv(pre_covid_fall_2018_19, file = "../data/pre_covid_fall_2018_19.csv")
+
 pre_covid_fall_2018_19 <- read_excel("../data/pre_covid.xlsx", 
     sheet = "3-4", range = "A3:I81") |>
   janitor::clean_names()

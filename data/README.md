@@ -5,9 +5,16 @@ Place data file(s) in this folder.
 Then, include codebooks (variables, and their descriptions) for your data file(s)
 using the following format.
 
-## name of data file
+## pre_covid_fall_2018_19.csv
 
-- `variable1`: Description of variable 1
-- `variable2`: Description of variable 2
-- `variable3`: Description of variable 3
+- `category`: Category of assessment
+- `bottom`: Minimum threshold for expected score
+- `top`: Maximum threshold for expected score
+- `number_children`: Number of children assessed
+- `average`: Average score of group
+- `number_below`: Number of children that scored below expected threshold
+- `percent_below`: Percent of children that scored below expected threshold
+- `number_meeting_exceeding`: Number of children that scored within or above expected threshold
+- `percent_meeting_exceeding`: Percent of children that scored within or above expected threshold
+
 - ...
