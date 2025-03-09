@@ -23,7 +23,6 @@ We are hoping to explore the various trends seen within the promise early educat
 ```{r data-cleanup}
 library(readxl)
 
-write_csv(pre_covid_fall_2018_19, file = "../data/pre_covid_fall_2018_19.csv")
 
 pre_covid_fall_2018_19 <- read_excel("../data/pre_covid.xlsx", 
     sheet = "3-4", range = "A3:I81") |>
@@ -64,53 +63,6 @@ glimpse(pre_covid_fall_2018_19)
 
 ```
 
-```{r category-divide}
-# Remove rows where all values are NA
-clean_rows <- pre_covid %>% filter(rowSums(is.na(.)) < ncol(pre_covid))
-
-# Remove columns where all values are NA
-clean_data_1 <- clean_rows %>% select(where(~ any(!is.na(.))))
-
-
-filled_labels <- clean_data_1 %>% fill(everything(), .direction = "down")
-colnames(filled_labels)[1] <- "category"
-view(filled_labels)
-
-
-math_precovid <- filled_labels %>% 
-  filter(category == "Mathematics")
-
-glimpse(math_precovid)
-
-soc_precovid <- filled_labels %>% 
-  filter(category == "Social-Emotional")
-
-glimpse(soc_precovid)
-
-phys_precovid <- filled_labels %>% 
-  filter(category == "Physical")
-
-glimpse(phys_precovid)
-
-language_precovid <- filled_labels %>% 
-  filter(category == "Language")
-
-glimpse(language_precovid)
-
-
-cognitive_precovid <- filled_labels %>% 
-  filter(category == "Cognitive")
-
-glimpse(cognitive_precovid)
-
-
-literacy_precovid <- filled_labels %>% 
-  filter(category == "Literacy")
-
-glimpse(literacy_precovid)
-
-
-```
 
 ## 3. Data analysis plan
 We are going to be exploring patterns before and after COVID-19 to visualize the effect that the COVID-19 pandemic has had on the several categories of child development. One variable that is going to be useful in this is,% Meeting/Exceeding, to see if these numbers differed before and after COVID-19. We intend to create a scatter plot, and use faceting since they are many different times we are comparing.  We have so much data, so we don't think we need additional data, but we are going to need to tidy up the data to make it easier to analyze.
