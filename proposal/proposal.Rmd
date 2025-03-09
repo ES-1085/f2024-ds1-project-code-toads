@@ -23,6 +23,7 @@ We are hoping to explore the various trends seen within the promise early educat
 ```{r data-cleanup}
 library(readxl)
 
+library(janitor)
 
 pre_covid_fall_2018_19 <- read_excel("../data/pre_covid.xlsx", 
     sheet = "3-4", range = "A3:I81") |>

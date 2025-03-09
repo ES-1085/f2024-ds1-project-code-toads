@@ -381,8 +381,13 @@ followed it.</p>
 <h2>2. Data</h2>
 <pre class="r"><code>library(readxl)
 
-
-pre_covid_fall_2018_19 &lt;- read_excel(&quot;../data/pre_covid.xlsx&quot;, 
+library(janitor)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code>pre_covid_fall_2018_19 &lt;- read_excel(&quot;../data/pre_covid.xlsx&quot;, 
     sheet = &quot;3-4&quot;, range = &quot;A3:I81&quot;) |&gt;
   janitor::clean_names()</code></pre>
 <pre><code>## New names:
