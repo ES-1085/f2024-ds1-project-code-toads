@@ -55,8 +55,8 @@ pre_covid_fall_2018_19_mean <- pre_covid_fall_2018_19 |>
 pre_covid_fall_2018_19_mean
 
 #attempt to make a bar plot for %meeting/exceeding averages between each category
-#ggplot(pre_covid_fall_2018_19_mean, aes(x=percent_meeting_exceeding)) +
- # geom_bar()+
+ggplot(pre_covid_fall_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
+  geom_col() #+
   #facet_wrap(~category)
 
 
@@ -72,5 +72,6 @@ We are going to be exploring patterns before and after COVID-19 to visualize the
 
 ## 4. Data Ethics Review
 
-The data ethics review section will be introduced in a separate class and is not part of the original proposal deadline.
+In regards to the negative effects, one data file has information on the names of the students involved in the program, and that is one example of sensitive information that could be harmful if included in our project. To minimize this harm, we should be mindful of not including any information that is not completely relevant or could be used to single out specific students, especially given the fact that this dataset works with young participants.
+
 
