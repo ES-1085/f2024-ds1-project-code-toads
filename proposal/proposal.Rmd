@@ -72,6 +72,6 @@ We are going to be exploring patterns before and after COVID-19 to visualize the
 
 ## 4. Data Ethics Review
 
-In regards to the negative effects, one data file has information on the names of the students involved in the program, and that is one example of sensitive information that could be harmful if included in our project. To minimize this harm, we should be mindful of not including any information that is not completely relevant or could be used to single out specific students, especially given the fact that this dataset works with young participants.
+In regards to the negative effects, one data file has information on the names of the students involved in the program, and that is one example of sensitive information that could be harmful if included in our project. To minimize this harm, we should be mindful of not including any information that is not completely relevant or could be used to single out specific students, especially given the fact that this dataset works with young participants. Another, data ethics concern is how we have no connection to the students represented in the data set. It is easy to see their development through the data but we have to remember that this data represent real students. We have not yet been in contact with our community partners so that communication will be helpful to understand the behind the scenes of the data. 
 
 
