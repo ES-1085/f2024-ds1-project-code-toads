@@ -119,7 +119,7 @@ view(pre_covid)
 
 
 ## 3. Data analysis plan
-We are going to be exploring patterns before and after COVID-19 to visualize the effect that the COVID-19 pandemic has had on the several categories of child development. One variable that is going to be useful in this is,% Meeting/Exceeding, to see if these numbers differed before and after COVID-19. We intend to create a scatter plot, and use faceting since they are many different times we are comparing.  We have so much data, so we don't think we need additional data, but we are going to need to tidy up the data to make it easier to analyze.
+We are going to be exploring patterns before and after COVID-19 to visualize the effect that the COVID-19 pandemic has had on the several categories of child development. One variable that is going to be useful in this is,% Meeting/Exceeding, t`o see if these numbers differed before and after COVID-19. We intend to create a scatter plot, and use faceting since they are many different times we are comparing.  We have so much data, so we don't think we need additional data, but we are going to need to tidy up the data to make it easier to analyze.
 
 
 
