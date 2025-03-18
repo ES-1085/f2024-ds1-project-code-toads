@@ -488,10 +488,39 @@ pre_covid_winter_2018_19 &lt;- pre_covid_winter_2018_19 |&gt;
   mutate(season = &quot;Winter&quot;) |&gt;
    mutate(year = &quot;18-19&quot;)
 
-pre_covid_winter_2018_19$percent_meeting_exceeding &lt;- as.numeric(pre_covid_winter_2018_19$percent_meeting_exceeding)
+pre_covid_winter_2018_19$percent_meeting_exceeding &lt;- as.numeric(pre_covid_winter_2018_19$percent_meeting_exceeding)</code></pre>
+<pre class="r"><code>library(readxl)
+pre_covid_spring_2018_19 &lt;- read_excel(&quot;../data/pre_covid.xlsx&quot;, 
+    sheet = &quot;3-4&quot;, range = &quot;P3:U80&quot;)
+
+pre_covid_spring_2018_19 &lt;- cbind(expectations, pre_covid_spring_2018_19) |&gt;
+    janitor::clean_names()
 
 
-pre_covid &lt;- rbind(pre_covid_fall_2018_19, pre_covid_winter_2018_19)
+pre_covid_spring_2018_19 &lt;- pre_covid_spring_2018_19 |&gt;
+  rename(`category` = `x1`)
+
+pre_covid_spring_2018_19[1, 1] &lt;- &quot;Social-Emotional&quot;
+
+
+pre_covid_spring_2018_19 &lt;- pre_covid_spring_2018_19 |&gt;
+  filter(!category %in% c(&quot;Threes SE&quot;, &quot;Threes&quot;)) 
+
+pre_covid_spring_2018_19 &lt;- pre_covid_spring_2018_19 |&gt;
+  fill(category, .direction = &quot;down&quot;) |&gt;
+  drop_na(bottom)
+
+pre_covid_spring_2018_19 &lt;- pre_covid_spring_2018_19 |&gt;
+  filter(!bottom %in% c(&quot;Widely Held Expectations&quot;, &quot;Bottom&quot;))
+
+pre_covid_spring_2018_19 &lt;- pre_covid_spring_2018_19 |&gt;
+  mutate(season = &quot;Spring&quot;) |&gt;
+   mutate(year = &quot;18-19&quot;)
+
+pre_covid_spring_2018_19$percent_meeting_exceeding &lt;- as.numeric(pre_covid_spring_2018_19$percent_meeting_exceeding)
+
+
+pre_covid &lt;- rbind(pre_covid_fall_2018_19, pre_covid_winter_2018_19, pre_covid_spring_2018_19)
 view(pre_covid)</code></pre>
 </div>
 <div id="data-analysis-plan" class="section level2">
@@ -499,7 +528,7 @@ view(pre_covid)</code></pre>
 <p>We are going to be exploring patterns before and after COVID-19 to
 visualize the effect that the COVID-19 pandemic has had on the several
 categories of child development. One variable that is going to be useful
-in this is,% Meeting/Exceeding, to see if these numbers differed before
+in this is,% Meeting/Exceeding, t`o see if these numbers differed before
 and after COVID-19. We intend to create a scatter plot, and use faceting
 since they are many different times we are comparing. We have so much
 data, so we don’t think we need additional data, but we are going to

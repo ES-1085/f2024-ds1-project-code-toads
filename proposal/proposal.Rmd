@@ -74,41 +74,41 @@ glimpse(pre_covid_fall_2018_19)
 
 ```
 
-```{r cleanup-spring-18-19}
+```{r cleanup-winter-18-19}
 library(readxl)
-pre_covid_spring_2018_19 <- read_excel("../data/pre_covid.xlsx", 
+pre_covid_winter_2018_19 <- read_excel("../data/pre_covid.xlsx", 
     sheet = "3-4", range = "J3:O80")
 
 expectations <- read_excel("../data/pre_covid.xlsx", 
     sheet = "3-4", range = "A3:C80")
 
 
-pre_covid_spring_2018_19 <- cbind(expectations, pre_covid_spring_2018_19) |>
+pre_covid_winter_2018_19 <- cbind(expectations, pre_covid_winter_2018_19) |>
     janitor::clean_names()
 
 
 
-pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
+pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
   rename(`category` = `x1`)
 
-pre_covid_spring_2018_19[1, 1] <- "Social-Emotional"
+pre_covid_winter_2018_19[1, 1] <- "Social-Emotional"
 
 
-pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
+pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
   filter(!category %in% c("Threes SE", "Threes")) 
 
-pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
+pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
   fill(category, .direction = "down") |>
   drop_na(bottom)
 
-pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
+pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
   filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
 
-pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
-  mutate(season = "spring") |>
+pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
+  mutate(season = "Winter") |>
    mutate(year = "18-19")
 
-pre_covid_spring_2018_19$percent_meeting_exceeding <- as.numeric(pre_covid_spring_2018_19$percent_meeting_exceeding)
+pre_covid_winter_2018_19$percent_meeting_exceeding <- as.numeric(pre_covid_winter_2018_19$percent_meeting_exceeding)
 
 
 ```
