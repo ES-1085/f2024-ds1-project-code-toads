@@ -74,49 +74,81 @@ glimpse(pre_covid_fall_2018_19)
 
 ```
 
-```{r cleanup-two}
+```{r cleanup-spring-18-19}
 library(readxl)
-pre_covid_winter_2018_19 <- read_excel("../data/pre_covid.xlsx", 
+pre_covid_spring_2018_19 <- read_excel("../data/pre_covid.xlsx", 
     sheet = "3-4", range = "J3:O80")
 
 expectations <- read_excel("../data/pre_covid.xlsx", 
     sheet = "3-4", range = "A3:C80")
 
 
-pre_covid_winter_2018_19 <- cbind(expectations, pre_covid_winter_2018_19) |>
+pre_covid_spring_2018_19 <- cbind(expectations, pre_covid_spring_2018_19) |>
     janitor::clean_names()
 
 
 
-pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
+pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
   rename(`category` = `x1`)
 
-pre_covid_winter_2018_19[1, 1] <- "Social-Emotional"
+pre_covid_spring_2018_19[1, 1] <- "Social-Emotional"
 
 
-pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
+pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
   filter(!category %in% c("Threes SE", "Threes")) 
 
-pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
+pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
   fill(category, .direction = "down") |>
   drop_na(bottom)
 
-pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
+pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
   filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
 
-pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
-  mutate(season = "Winter") |>
+pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
+  mutate(season = "spring") |>
    mutate(year = "18-19")
 
-pre_covid_winter_2018_19$percent_meeting_exceeding <- as.numeric(pre_covid_winter_2018_19$percent_meeting_exceeding)
-
-
-pre_covid <- rbind(pre_covid_fall_2018_19, pre_covid_winter_2018_19)
-view(pre_covid)
+pre_covid_spring_2018_19$percent_meeting_exceeding <- as.numeric(pre_covid_spring_2018_19$percent_meeting_exceeding)
 
 
 ```
 
+```{r cleanup-spring-18-19}
+library(readxl)
+pre_covid_spring_2018_19 <- read_excel("../data/pre_covid.xlsx", 
+    sheet = "3-4", range = "P3:U80")
+
+pre_covid_spring_2018_19 <- cbind(expectations, pre_covid_spring_2018_19) |>
+    janitor::clean_names()
+
+
+pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
+  rename(`category` = `x1`)
+
+pre_covid_spring_2018_19[1, 1] <- "Social-Emotional"
+
+
+pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
+  filter(!category %in% c("Threes SE", "Threes")) 
+
+pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
+  fill(category, .direction = "down") |>
+  drop_na(bottom)
+
+pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
+  filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
+
+pre_covid_spring_2018_19 <- pre_covid_spring_2018_19 |>
+  mutate(season = "Spring") |>
+   mutate(year = "18-19")
+
+pre_covid_spring_2018_19$percent_meeting_exceeding <- as.numeric(pre_covid_spring_2018_19$percent_meeting_exceeding)
+
+
+pre_covid <- rbind(pre_covid_fall_2018_19, pre_covid_winter_2018_19, pre_covid_spring_2018_19)
+view(pre_covid)
+
+```
 
 ## 3. Data analysis plan
 We are going to be exploring patterns before and after COVID-19 to visualize the effect that the COVID-19 pandemic has had on the several categories of child development. One variable that is going to be useful in this is,% Meeting/Exceeding, t`o see if these numbers differed before and after COVID-19. We intend to create a scatter plot, and use faceting since they are many different times we are comparing.  We have so much data, so we don't think we need additional data, but we are going to need to tidy up the data to make it easier to analyze.
