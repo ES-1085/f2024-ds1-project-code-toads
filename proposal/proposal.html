@@ -408,6 +408,10 @@ pre_covid_fall_2018_19 &lt;- pre_covid_fall_2018_19 |&gt;
 pre_covid_fall_2018_19 &lt;- pre_covid_fall_2018_19 |&gt;
   filter(!bottom %in% c(&quot;Widely Held Expectations&quot;, &quot;Bottom&quot;))
 
+pre_covid_fall_2018_19 &lt;- pre_covid_fall_2018_19 |&gt;
+  mutate(season = &quot;Fall&quot;) |&gt;
+  mutate(year = &quot;18-19&quot;)
+
 pre_covid_fall_2018_19$percent_meeting_exceeding &lt;- as.numeric(pre_covid_fall_2018_19$percent_meeting_exceeding)
 
 pre_covid_fall_2018_19_mean &lt;- pre_covid_fall_2018_19 |&gt;
@@ -439,7 +443,7 @@ ggplot(pre_covid_fall_2018_19_mean, aes(y = category, x = percent_meeting_exceed
 
 glimpse(pre_covid_fall_2018_19)</code></pre>
 <pre><code>## Rows: 60
-## Columns: 9
+## Columns: 11
 ## $ category                  &lt;chr&gt; &quot;Social-Emotional&quot;, &quot;Social-Emotional&quot;, &quot;Soc…
 ## $ bottom                    &lt;chr&gt; &quot;300.0&quot;, &quot;300.0&quot;, &quot;300.0&quot;, &quot;300.0&quot;, &quot;300.0&quot;,…
 ## $ top                       &lt;chr&gt; &quot;396.0&quot;, &quot;396.0&quot;, &quot;396.0&quot;, &quot;396.0&quot;, &quot;396.0&quot;,…
@@ -448,7 +452,47 @@ glimpse(pre_covid_fall_2018_19)</code></pre>
 ## $ number_below              &lt;chr&gt; &quot;1.0&quot;, &quot;4.0&quot;, &quot;3.0&quot;, &quot;2.0&quot;, &quot;8.0&quot;, &quot;3.0&quot;, &quot;1…
 ## $ percent_below             &lt;chr&gt; &quot;100.0&quot;, &quot;57.1&quot;, &quot;100.0&quot;, &quot;18.2&quot;, &quot;72.7&quot;, &quot;3…
 ## $ number_meeting_exceeding  &lt;chr&gt; NA, &quot;3.0&quot;, NA, &quot;9.0&quot;, &quot;3.0&quot;, &quot;5.0&quot;, &quot;8.0&quot;, &quot;…
-## $ percent_meeting_exceeding &lt;dbl&gt; 0.0, 42.9, 0.0, 81.8, 27.3, 62.5, 88.9, 88.9…</code></pre>
+## $ percent_meeting_exceeding &lt;dbl&gt; 0.0, 42.9, 0.0, 81.8, 27.3, 62.5, 88.9, 88.9…
+## $ season                    &lt;chr&gt; &quot;Fall&quot;, &quot;Fall&quot;, &quot;Fall&quot;, &quot;Fall&quot;, &quot;Fall&quot;, &quot;Fal…
+## $ year                      &lt;chr&gt; &quot;18-19&quot;, &quot;18-19&quot;, &quot;18-19&quot;, &quot;18-19&quot;, &quot;18-19&quot;,…</code></pre>
+<pre class="r"><code>library(readxl)
+pre_covid_winter_2018_19 &lt;- read_excel(&quot;../data/pre_covid.xlsx&quot;, 
+    sheet = &quot;3-4&quot;, range = &quot;J3:O80&quot;)
+
+expectations &lt;- read_excel(&quot;../data/pre_covid.xlsx&quot;, 
+    sheet = &quot;3-4&quot;, range = &quot;A3:C80&quot;)</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...1`</code></pre>
+<pre class="r"><code>pre_covid_winter_2018_19 &lt;- cbind(expectations, pre_covid_winter_2018_19) |&gt;
+    janitor::clean_names()
+
+
+
+pre_covid_winter_2018_19 &lt;- pre_covid_winter_2018_19 |&gt;
+  rename(`category` = `x1`)
+
+pre_covid_winter_2018_19[1, 1] &lt;- &quot;Social-Emotional&quot;
+
+
+pre_covid_winter_2018_19 &lt;- pre_covid_winter_2018_19 |&gt;
+  filter(!category %in% c(&quot;Threes SE&quot;, &quot;Threes&quot;)) 
+
+pre_covid_winter_2018_19 &lt;- pre_covid_winter_2018_19 |&gt;
+  fill(category, .direction = &quot;down&quot;) |&gt;
+  drop_na(bottom)
+
+pre_covid_winter_2018_19 &lt;- pre_covid_winter_2018_19 |&gt;
+  filter(!bottom %in% c(&quot;Widely Held Expectations&quot;, &quot;Bottom&quot;))
+
+pre_covid_winter_2018_19 &lt;- pre_covid_winter_2018_19 |&gt;
+  mutate(season = &quot;Winter&quot;) |&gt;
+   mutate(year = &quot;18-19&quot;)
+
+pre_covid_winter_2018_19$percent_meeting_exceeding &lt;- as.numeric(pre_covid_winter_2018_19$percent_meeting_exceeding)
+
+
+pre_covid &lt;- rbind(pre_covid_fall_2018_19, pre_covid_winter_2018_19)
+view(pre_covid)</code></pre>
 </div>
 <div id="data-analysis-plan" class="section level2">
 <h2>3. Data analysis plan</h2>
