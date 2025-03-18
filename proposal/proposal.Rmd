@@ -56,7 +56,13 @@ pre_covid_fall_2018_19_mean
 
 #attempt to make a bar plot for %meeting/exceeding averages between each category
 ggplot(pre_covid_fall_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
-  geom_col() #+
+  geom_col() +
+  labs(
+    x = "Percent Meeting/Exceeding",
+    y = "Category",
+    title = "Percent Meeting/Exceeding in Each Category",
+    fill = "Category" 
+  ) 
   #facet_wrap(~category)
 
 
