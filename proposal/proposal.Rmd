@@ -20,7 +20,7 @@ We are hoping to explore the various trends seen within the promise early educat
 ## 2. Data
 
 
-```{r data-cleanup}
+```{r cleanup fall-18-19}
 library(readxl)
 
 library(janitor)
@@ -56,21 +56,6 @@ pre_covid_fall_2018_19_mean <- pre_covid_fall_2018_19 |>
   group_by(category) |>
   summarize_at(vars("percent_meeting_exceeding"), mean, na.rm = TRUE)
 
-pre_covid_fall_2018_19_mean
-
-#attempt to make a bar plot for %meeting/exceeding averages between each category
-ggplot(pre_covid_fall_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
-  geom_col() +
-  labs(
-    x = "Percent Meeting/Exceeding",
-    y = "Category",
-    title = "Percent Meeting/Exceeding in Each Category",
-    fill = "Category" 
-  ) 
-  #facet_wrap(~category)
-
-
-glimpse(pre_covid_fall_2018_19)
 
 ```
 
@@ -85,8 +70,6 @@ expectations <- read_excel("../data/pre_covid.xlsx",
 
 pre_covid_winter_2018_19 <- cbind(expectations, pre_covid_winter_2018_19) |>
     janitor::clean_names()
-
-
 
 pre_covid_winter_2018_19 <- pre_covid_winter_2018_19 |>
   rename(`category` = `x1`)
@@ -114,17 +97,6 @@ pre_covid_winter_2018_19_mean <- pre_covid_winter_2018_19 |>
   group_by(category) |>
   summarize_at(vars("percent_meeting_exceeding"), mean, na.rm = TRUE)
 
-pre_covid_winter_2018_19_mean
-
-#attempt to make a bar plot for %meeting/exceeding averages between each category
-ggplot(pre_covid_winter_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
-  geom_col() +
-  labs(
-    x = "Percent Meeting/Exceeding",
-    y = "Category",
-    title = "Percent Meeting/Exceeding in Each Category",
-    fill = "Category" 
-  ) 
 
 ```
 
@@ -161,40 +133,47 @@ pre_covid_spring_2018_19$percent_meeting_exceeding <- as.numeric(pre_covid_sprin
 
 
 pre_covid <- rbind(pre_covid_fall_2018_19, pre_covid_winter_2018_19, pre_covid_spring_2018_19)
-view(pre_covid)
 
-
-pre_covid_winter_2018_19_mean <- pre_covid_winter_2018_19 |>
-  group_by(category) |>
-  summarize_at(vars("percent_meeting_exceeding"), mean, na.rm = TRUE)
-
-pre_covid_winter_2018_19_mean
-
-pre_covid_winter_2018_19_mean <- pre_covid_winter_2018_19 |>
+pre_covid_spring_2018_19_mean <- pre_covid_spring_2018_19 |>
   group_by(category) |>
   summarize_at(vars("percent_meeting_exceeding"), mean, na.rm = TRUE)
 
 
-#attempt to make a bar plot for %meeting/exceeding averages between each category
-ggplot(pre_covid_spring_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
+```
+
+```{r mean-plots-18-19}
+
+##plots showing mean scores through each season for 2018-19
+
+ggplot(pre_covid_fall_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
   geom_col() +
   labs(
     x = "Percent Meeting/Exceeding",
     y = "Category",
-    title = "Percent Meeting/Exceeding in Each Category",
-    fill = "Category" 
-  ) 
+    title = "Percent Meeting/Exceeding in Each Category for Fall 2018-19",
+    fill = "Category")  +
+  xlim(0, 100)
 
 
-#attempt to make a bar plot for %meeting/exceeding averages between each category
 ggplot(pre_covid_winter_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
   geom_col() +
   labs(
     x = "Percent Meeting/Exceeding",
     y = "Category",
-    title = "Percent Meeting/Exceeding in Each Category",
+    title = "Percent Meeting/Exceeding in Each Category for Winter 2018-19",
     fill = "Category" 
-  ) 
+  ) +
+  xlim(0, 100)
+
+ggplot(pre_covid_spring_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
+  geom_col() +
+  labs(
+    x = "Percent Meeting/Exceeding",
+    y = "Category",
+    title = "Percent Meeting/Exceeding in Each Category for Spring 2018-19",
+    fill = "Category" 
+  )  +
+  xlim(0, 100)
 
 
 ```
