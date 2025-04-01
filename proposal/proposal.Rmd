@@ -134,6 +134,10 @@ pre_covid_spring_2018_19$percent_meeting_exceeding <- as.numeric(pre_covid_sprin
 
 pre_covid <- rbind(pre_covid_fall_2018_19, pre_covid_winter_2018_19, pre_covid_spring_2018_19)
 
+#should we make a variable for age, since the data is split between age groups? or just choose 3-4 year olds as our #data set?
+#pre_covid <- pre_covid |>
+ # mutate(children_age = "3-4")
+
 pre_covid_spring_2018_19_mean <- pre_covid_spring_2018_19 |>
   group_by(category) |>
   summarize_at(vars("percent_meeting_exceeding"), mean, na.rm = TRUE)
@@ -177,7 +181,13 @@ ggplot(pre_covid_spring_2018_19_mean, aes(y = category, x = percent_meeting_exce
 
 
 ```
+```{r cleanup 20-21}
 
+fall_2020_21 <- read_excel("../data/2020_21_HS.xlsx", 
+    sheet = "HS RAW ALL", range = "A4:K50")
+
+
+```
 ## 3. Data analysis plan
 We are going to be exploring patterns before and after COVID-19 to visualize the effect that the COVID-19 pandemic has had on the several categories of child development. One variable that is going to be useful in this is,% Meeting/Exceeding, t`o see if these numbers differed before and after COVID-19. We intend to create a scatter plot, and use faceting since they are many different times we are comparing.  We have so much data, so we don't think we need additional data, but we are going to need to tidy up the data to make it easier to analyze.
 
