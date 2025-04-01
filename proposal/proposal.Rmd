@@ -8,6 +8,7 @@ output: html_document
 library(tidyverse)
 library(broom)
 library(dplyr)
+library(stringr)
 ```
 
 ## 1. Introduction
@@ -184,8 +185,31 @@ ggplot(pre_covid_spring_2018_19_mean, aes(y = category, x = percent_meeting_exce
 ```{r cleanup 20-21}
 
 fall_2020_21 <- read_excel("../data/2020_21_HS.xlsx", 
-    sheet = "HS RAW ALL", range = "A4:K50")
+    sheet = "HS RAW ALL", range = "A4:K50") |>
+    janitor::clean_names()
 
+fall_2020_21 <- fall_2020_21 |>
+  rename(`category` = `x1`)
+
+fall_2020_21[1, 1] <- "Social-Emotional"
+
+
+fall_2020_21 <- fall_2020_21 |>
+  filter(!str_detect(category, "TOTAL")) 
+
+#fall_2020_21 <- fall_2020_21 |>
+ # mutate(category = na_if(category, category == str_detect("Yrs")))
+
+fall_2020_21 <- fall_2020_21 |>
+  fill(category, .direction = "down") |>
+  drop_na(bottom)
+
+fall_2020_21 <- fall_2020_21 |>
+  filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
+
+fall_2020_21 <- fall_2020_21 |>
+  mutate(season = "Fall") |>
+   mutate(year = "20-21")
 
 ```
 ## 3. Data analysis plan
