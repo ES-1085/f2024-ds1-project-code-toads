@@ -541,8 +541,14 @@ fall_2020_21[1, 1] &lt;- &quot;Social-Emotional&quot;
 fall_2020_21 &lt;- fall_2020_21 |&gt;
   filter(!str_detect(category, &quot;TOTAL&quot;)) 
 
-#fall_2020_21 &lt;- fall_2020_21 |&gt;
+fall_2020_21 &lt;- fall_2020_21 |&gt;
+ mutate(category = case_when(str_detect(category, pattern = &quot;Language|Mathematics|Social-Emotional|Cognitive|Physical|Literacy&quot;) ~ category, TRUE ~ NA))
+ 
+ 
  # mutate(category = na_if(category, category == str_detect(&quot;Yrs&quot;)))
+  # mutate(category = case_when(category == str_detect(&quot;Lang&quot;) ~ &quot;Language&quot;,
+#category == str_detect(...),
+#TRUE ~ &quot;No category&quot;))
 
 fall_2020_21 &lt;- fall_2020_21 |&gt;
   fill(category, .direction = &quot;down&quot;) |&gt;
