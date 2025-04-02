@@ -199,7 +199,8 @@ ggplot(pre_covid_mean, aes(x = season, y = percent_meeting_exceeding, fill = cat
     fill = "Category")  +
   ylim(0, 100) +
   facet_wrap(~category) +
-  guides(fill = "none")
+  guides(fill = "none")+
+  scale_fill_viridis_d()
 
 ```
 
@@ -240,15 +241,14 @@ mutate(across(2:11, as.numeric))
 
 fall_2020_21[is.na(fall_2020_21)] <- 0
 
-fall_2020_21$percent_meeting <- as.numeric(fall_2020_21$percent_meeting) 
- fall_2020_21$percent_exceeding <- as.numeric(fall_2020_21$percent_exceeding)
- fall_2020_21$number_meeting <- as.numeric(fall_2020_21$number_meeting)
- fall_2020_21$number_exceeding <- as.numeric(fall_2020_21$number_exceeding)
+#fall_2020_21$percent_meeting <- as.numeric(fall_2020_21$percent_meeting) 
+ #fall_2020_21$percent_exceeding <- as.numeric(fall_2020_21$percent_exceeding)
+ #fall_2020_21$number_meeting <- as.numeric(fall_2020_21$number_meeting)
+ #fall_2020_21$number_exceeding <- as.numeric(fall_2020_21$number_exceeding)
 
 fall_2020_21 <- fall_2020_21 |>
   mutate(season = "Fall") |>
-   mutate(year = "20-21") |>
-  mutate(percent_meeting_exceeding = percent_meeting+percent_exceeding)
+   mutate(year = "20-21") 
 
 
 ```
@@ -257,7 +257,7 @@ fall_2020_21 <- fall_2020_21 |>
 ```{r cleanup winter_20-21}
 
 winter_2020_21 <- read_excel("../data/2020_21_HS.xlsx", 
-    sheet = "HS RAW ALL", range = "N4:W50") |>
+    sheet = "HS RAW ALL", range = "N4:U50") |>
     janitor::clean_names()
 
 expectations_20_21 <- read_excel("../data/2020_21_HS.xlsx", 
@@ -278,11 +278,6 @@ winter_2020_21 <- winter_2020_21 |>
 winter_2020_21 <- winter_2020_21 |>
  mutate(category = case_when(str_detect(category, pattern = "Language|Mathematics|Social-Emotional|Cognitive|Physical|Literacy") ~ category, TRUE ~ NA))
  
- 
- # mutate(category = na_if(category, category == str_detect("Yrs")))
-  # mutate(category = case_when(category == str_detect("Lang") ~ "Language",
-#category == str_detect(...),
-#TRUE ~ "No category"))
 
 winter_2020_21 <- winter_2020_21 |>
   fill(category, .direction = "down") |>
@@ -291,14 +286,80 @@ winter_2020_21 <- winter_2020_21 |>
 winter_2020_21 <- winter_2020_21 |>
   filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
 
+
+winter_2020_21$percent_meeting <- as.numeric(winter_2020_21$percent_meeting) 
+ winter_2020_21$percent_exceeding <- as.numeric(winter_2020_21$percent_exceeding)
+ winter_2020_21$number_meeting <- as.numeric(winter_2020_21$number_meeting)
+ winter_2020_21$number_exceeding <- as.numeric(winter_2020_21$number_exceeding)
+
 winter_2020_21 <- winter_2020_21 |>
+  mutate(season = "Winter") |>
+   mutate(year = "20-21")
+
+
+```
+
+```{r cleanup spring_20-21}
+
+spring_2020_21 <- read_excel("../data/2020_21_HS.xlsx", 
+    sheet = "HS RAW ALL", range = "X4:AE50") |>
+    janitor::clean_names()
+
+spring_2020_21 <- cbind(expectations_20_21, spring_2020_21) |>
+      janitor::clean_names()
+  
+
+spring_2020_21 <- spring_2020_21 |>
+  rename(`category` = `x1`)
+
+spring_2020_21[1, 1] <- "Social-Emotional"
+
+spring_2020_21 <- spring_2020_21 |>
+  filter(!str_detect(category, "TOTAL")) 
+
+spring_2020_21 <- spring_2020_21 |>
+ mutate(category = case_when(str_detect(category, pattern = "Language|Mathematics|Social-Emotional|Cognitive|Physical|Literacy") ~ category, TRUE ~ NA))
+ 
+ 
+ # mutate(category = na_if(category, category == str_detect("Yrs")))
+  # mutate(category = case_when(category == str_detect("Lang") ~ "Language",
+#category == str_detect(...),
+#TRUE ~ "No category"))
+
+spring_2020_21 <- spring_2020_21 |>
+  fill(category, .direction = "down") |>
+  drop_na(bottom)
+
+spring_2020_21 <- spring_2020_21 |>
+  filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
+
+spring_2020_21 <- spring_2020_21 |>
 mutate(across(2:11, as.numeric))
 
-winter_2020_21 <- winter_2020_21 |>
-  mutate(season = "winter") |>
-   mutate(year = "20-21") 
+spring_2020_21$percent_meeting <- as.numeric(spring_2020_21$percent_meeting) 
+ spring_2020_21$percent_exceeding <- as.numeric(spring_2020_21$percent_exceeding)
+ spring_2020_21$number_meeting <- as.numeric(spring_2020_21$number_meeting)
+ spring_2020_21$number_exceeding <- as.numeric(spring_2020_21$number_exceeding)
 
+spring_2020_21 <- spring_2020_21 |>
+  mutate(season = "Spring") |>
+   mutate(year = "20-21")# |>
 
+```
+
+```{r 2020-21}
+
+post_covid_2020_21 <- rbind(fall_2020_21, winter_2020_21, spring_2020_21) |>
+  mutate(season = fct_relevel(season, "Fall", "Winter", "Spring"))
+
+post_covid_2020_21 <- post_covid_2020_21 |>
+mutate(across(2:11, as.numeric))
+
+post_covid_2020_21[is.na(post_covid_2020_21)] <- 0
+
+post_covid_2020_21 <- post_covid_2020_21 |>
+mutate(percent_meeting_exceeding = percent_meeting + percent_exceeding) |>
+  mutate(number_meeting_exceeding = number_meeting + number_exceeding)
 
 ```
 
