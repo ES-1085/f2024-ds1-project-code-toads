@@ -193,8 +193,8 @@ pre_covid_mean <- pre_covid |>
 ggplot(pre_covid_mean, aes(x = season, y = percent_meeting_exceeding, fill = category)) +
   geom_col() +
   labs(
-    x = "Percent Meeting/Exceeding",
-    y = "Season",
+    y = "Percent Meeting/Exceeding",
+    x = "Season",
     title = "Percent Meeting/Exceeding in Each Category for Year 2018-19",
     fill = "Category")  +
   ylim(0, 100) +
@@ -292,9 +292,11 @@ winter_2020_21 <- winter_2020_21 |>
   filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
 
 winter_2020_21 <- winter_2020_21 |>
+mutate(across(2:11, as.numeric))
+
+winter_2020_21 <- winter_2020_21 |>
   mutate(season = "winter") |>
    mutate(year = "20-21") 
-
 
 
 
