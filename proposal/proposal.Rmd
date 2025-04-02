@@ -181,6 +181,10 @@ ggplot(pre_covid_spring_2018_19_mean, aes(y = category, x = percent_meeting_exce
   )  +
   xlim(0, 100)
 
+pre_covid <- pre_covid |>
+mutate(across(2:9, as.numeric))
+
+pre_covid[is.na(pre_covid)] <- 0
 
 pre_covid_mean <- pre_covid |>
   group_by(category, season) |>
@@ -232,11 +236,24 @@ fall_2020_21 <- fall_2020_21 |>
   filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
 
 fall_2020_21 <- fall_2020_21 |>
+mutate(across(2:11, as.numeric))
+
+fall_2020_21[is.na(fall_2020_21)] <- 0
+
+fall_2020_21$percent_meeting <- as.numeric(fall_2020_21$percent_meeting) 
+ fall_2020_21$percent_exceeding <- as.numeric(fall_2020_21$percent_exceeding)
+ fall_2020_21$number_meeting <- as.numeric(fall_2020_21$number_meeting)
+ fall_2020_21$number_exceeding <- as.numeric(fall_2020_21$number_exceeding)
+
+fall_2020_21 <- fall_2020_21 |>
   mutate(season = "Fall") |>
-   mutate(year = "20-21")# |>
-#  mutate(percent_meeting_exceeding = sum(percent_meeting,percent_exceeding))
+   mutate(year = "20-21") |>
+  mutate(percent_meeting_exceeding = percent_meeting+percent_exceeding)
+
 
 ```
+
+
 ```{r cleanup winter_20-21}
 
 winter_2020_21 <- read_excel("../data/2020_21_HS.xlsx", 
@@ -276,7 +293,10 @@ winter_2020_21 <- winter_2020_21 |>
 
 winter_2020_21 <- winter_2020_21 |>
   mutate(season = "winter") |>
-   mutate(year = "20-21")
+   mutate(year = "20-21") 
+
+
+
 
 ```
 
