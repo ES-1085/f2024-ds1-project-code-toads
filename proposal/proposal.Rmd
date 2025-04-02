@@ -65,10 +65,107 @@ ggplot(pre_covid_fall_2018_19_mean, aes(y = category, x = percent_meeting_exceed
   ) 
   #facet_wrap(~category)
 
+ggsave("graph.png", width = 6, height = 4, dpi = 300)
 
 glimpse(pre_covid_fall_2018_19)
 
 ```
+
+```{r}
+library(readxl)
+
+library(janitor)
+
+post_covid <- read_excel("../data/post_covid.xlsx",
+  range = "A3:K65") |>
+  janitor::clean_names()
+
+post_covid <- post_covid |>
+  rename(`category` = `x1`)
+
+
+
+
+
+
+post_covid <- post_covid %>% filter(!if_all(-1, is.na)) #removes rows of all NA
+post_covid <- post_covid[, -c(2,3)]
+post_covid <- post_covid %>% filter(!is.na(average))
+
+
+
+post_covid[1:5, 1] <- "Social Emotional"
+post_covid[6:10, 1] <- "Physical"
+post_covid[11:15, 1] <- "Language"
+post_covid[16:20, 1] <- "Cognitive"
+post_covid[21:25, 1] <- "Literacy"
+post_covid[26:30, 1] <- "Mathematics"
+
+#view(post_covid)
+fall <- post_covid[-c(5, 10, 15, 20, 25, 30), ]
+view(fall)
+
+
+
+```
+
+```{r post_covid_winter}
+post_covid_win_spr <- read_excel("../data/post_covid.xlsx",
+  range = "M3:AE65") |>
+  janitor::clean_names()
+
+post_covid_win_spr <- post_covid_win_spr |>
+  rename(`category` = `x1`) |>
+  rename(`category_1` = `x11`)
+
+
+post_covid_win_spr <- post_covid_win_spr %>% filter(!if_all(-1, is.na)) #removes rows of all NA
+post_covid_win_spr <- post_covid_win_spr %>% filter(!is.na(average_3))
+
+
+
+
+post_covid_win_spr[1:5, 1] <- "Social Emotional"
+post_covid_win_spr[6:10, 1] <- "Physical"
+post_covid_win_spr[11:15, 1] <- "Language"
+post_covid_win_spr[16:20, 1] <- "Cognitive"
+post_covid_win_spr[21:25, 1] <- "Literacy"
+post_covid_win_spr[26:30, 1] <- "Mathematics"
+
+post_covid_win_spr[1:5, 11][is.na(post_covid_win_spr[1:5, 10])] <- "Social Emotional"
+post_covid_win_spr[6:10, 11][is.na(post_covid_win_spr[6:10, 10])] <- "Physical"
+post_covid_win_spr[11:15, 11][is.na(post_covid_win_spr[11:15, 10])] <- "Language"
+post_covid_win_spr[16:20, 11][is.na(post_covid_win_spr[16:20, 10])] <- "Cognitive"
+post_covid_win_spr[21:25, 11][is.na(post_covid_win_spr[21:25, 10])] <- "Literacy"
+post_covid_win_spr[26:30, 11][is.na(post_covid_win_spr[26:30, 10])] <- "Mathematics"
+
+
+
+post_covid_win_spr <- post_covid_win_spr[-c(5, 10, 15, 20, 25, 30),]
+post_covid_win_spr <- post_covid_win_spr[, -c(10)]
+
+view(post_covid_win_spr)
+
+
+
+```
+
+```{r merging-post_covid}
+
+winter <- post_covid_win_spr[, 1:9]  # Columns 1 to 10
+spring <- post_covid_win_spr[, 10:ncol(post_covid_win_spr)]
+
+colnames(winter) <- c("category", "number_children", "average", "number_below", "percent_below", 
+                                  "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding")
+
+colnames(spring) <- c("category", "number_children", "average", "number_below", "percent_below", 
+                                  "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding")
+
+
+
+
+```
+
 
 
 ## 3. Data analysis plan
