@@ -22,8 +22,9 @@ We are hoping to explore the various trends seen within the promise early educat
 ## 2. Data
 
 
-```{r data-cleanup}
+
 ```{r cleanup fall-18-19}
+
 library(readxl)
 
 library(janitor)
@@ -61,7 +62,6 @@ pre_covid_fall_2018_19_mean <- pre_covid_fall_2018_19 |>
 
 pre_covid_fall_2018_19_mean
 
-#attempt to make a bar plot for %meeting/exceeding averages between each category
 ```
 
 ```{r cleanup-winter-18-19}
@@ -160,7 +160,6 @@ ggplot(pre_covid_fall_2018_19_mean, aes(y = category, x = percent_meeting_exceed
   labs(
     x = "Percent Meeting/Exceeding",
     y = "Category",
-    title = "Percent Meeting/Exceeding in Each Category",
     title = "Percent Meeting/Exceeding in Each Category for Fall 2018-19",
     fill = "Category")  +
   xlim(0, 100)
@@ -172,15 +171,12 @@ ggplot(pre_covid_winter_2018_19_mean, aes(y = category, x = percent_meeting_exce
     x = "Percent Meeting/Exceeding",
     y = "Category",
     title = "Percent Meeting/Exceeding in Each Category for Winter 2018-19",
-    fill = "Category" 
-  ) 
-  #facet_wrap(~category)
-  ) +
+    fill = "Category") +
   xlim(0, 100)
 
-<<<<<<< HEAD
+
 ggsave("graph.png", width = 6, height = 4, dpi = 300)
-=======
+
 ggplot(pre_covid_spring_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
   geom_col() +
   labs(
@@ -305,7 +301,6 @@ winter_2020_21$percent_meeting <- as.numeric(winter_2020_21$percent_meeting)
 winter_2020_21 <- winter_2020_21 |>
   mutate(season = "Winter") |>
    mutate(year = "20-21")
->>>>>>> fca2c912f2ffcd91db8e232b2b77163fe2ddf02e
 
 glimpse(pre_covid_fall_2018_19)
 
@@ -407,7 +402,6 @@ colnames(spring) <- c("category", "number_children", "average", "number_below", 
 ```
 
 
-=======
 ```{r cleanup spring_20-21}
 
 spring_2020_21 <- read_excel("../data/2020_21_HS.xlsx", 
@@ -458,19 +452,36 @@ spring_2020_21 <- spring_2020_21 |>
 
 ```{r 2020-21}
 
-post_covid_2020_21 <- rbind(fall_2020_21, winter_2020_21, spring_2020_21) |>
+covid_2020_21 <- rbind(fall_2020_21, winter_2020_21, spring_2020_21) |>
   mutate(season = fct_relevel(season, "Fall", "Winter", "Spring"))
 
-post_covid_2020_21 <- post_covid_2020_21 |>
+covid_2020_21 <- covid_2020_21 |>
 mutate(across(2:11, as.numeric))
 
-post_covid_2020_21[is.na(post_covid_2020_21)] <- 0
+covid_2020_21[is.na(covid_2020_21)] <- 0
 
-post_covid_2020_21 <- post_covid_2020_21 |>
+covid_2020_21 <- covid_2020_21 |>
+  mutate(number_meeting_exceeding = number_meeting + number_exceeding) |>
 mutate(percent_meeting_exceeding = percent_meeting + percent_exceeding) |>
-  mutate(number_meeting_exceeding = number_meeting + number_exceeding)
+  select(-season, season) |>
+  select(-year, year)
+
+covid_2020_21 <- covid_2020_21 |>
+  select(-(number_meeting:percent_exceeding))
 
 ```
+
+
+```{r merge 2018-2021}
+
+scores <- rbind(pre_covid, covid_2020_21)
+
+```
+
+
+
+
+
 
 ## 3. Data analysis plan
 We are going to be exploring patterns before and after COVID-19 to visualize the effect that the COVID-19 pandemic has had on the several categories of child development. One variable that is going to be useful in this is,% Meeting/Exceeding, t`o see if these numbers differed before and after COVID-19. We intend to create a scatter plot, and use faceting since they are many different times we are comparing.  We have so much data, so we don't think we need additional data, but we are going to need to tidy up the data to make it easier to analyze.
