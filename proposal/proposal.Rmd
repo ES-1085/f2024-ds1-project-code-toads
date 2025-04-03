@@ -309,6 +309,83 @@ glimpse(pre_covid_fall_2018_19)
 
 ```
 
+
+```{r cleanup spring_20-21}
+
+spring_2020_21 <- read_excel("../data/2020_21_HS.xlsx", 
+    sheet = "HS RAW ALL", range = "X4:AE50") |>
+    janitor::clean_names()
+
+spring_2020_21 <- cbind(expectations_20_21, spring_2020_21) |>
+      janitor::clean_names()
+  
+
+spring_2020_21 <- spring_2020_21 |>
+  rename(`category` = `x1`)
+
+spring_2020_21[1, 1] <- "Social-Emotional"
+
+spring_2020_21 <- spring_2020_21 |>
+  filter(!str_detect(category, "TOTAL")) 
+
+spring_2020_21 <- spring_2020_21 |>
+ mutate(category = case_when(str_detect(category, pattern = "Language|Mathematics|Social-Emotional|Cognitive|Physical|Literacy") ~ category, TRUE ~ NA))
+ 
+ 
+ # mutate(category = na_if(category, category == str_detect("Yrs")))
+  # mutate(category = case_when(category == str_detect("Lang") ~ "Language",
+#category == str_detect(...),
+#TRUE ~ "No category"))
+
+spring_2020_21 <- spring_2020_21 |>
+  fill(category, .direction = "down") |>
+  drop_na(bottom)
+
+spring_2020_21 <- spring_2020_21 |>
+  filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
+
+spring_2020_21 <- spring_2020_21 |>
+mutate(across(2:11, as.numeric))
+
+spring_2020_21$percent_meeting <- as.numeric(spring_2020_21$percent_meeting) 
+ spring_2020_21$percent_exceeding <- as.numeric(spring_2020_21$percent_exceeding)
+ spring_2020_21$number_meeting <- as.numeric(spring_2020_21$number_meeting)
+ spring_2020_21$number_exceeding <- as.numeric(spring_2020_21$number_exceeding)
+
+spring_2020_21 <- spring_2020_21 |>
+  mutate(season = "Spring") |>
+   mutate(year = "20-21")# |>
+
+```
+
+```{r merge 2020-21}
+
+covid_2020_21 <- rbind(fall_2020_21, winter_2020_21, spring_2020_21) |>
+  mutate(season = fct_relevel(season, "Fall", "Winter", "Spring"))
+
+covid_2020_21 <- covid_2020_21 |>
+mutate(across(2:11, as.numeric))
+
+covid_2020_21[is.na(covid_2020_21)] <- 0
+
+covid_2020_21 <- covid_2020_21 |>
+  mutate(number_meeting_exceeding = number_meeting + number_exceeding) |>
+mutate(percent_meeting_exceeding = percent_meeting + percent_exceeding) |>
+  select(-season, season) |>
+  select(-year, year)
+
+covid_2020_21 <- covid_2020_21 |>
+  select(-(number_meeting:percent_exceeding))
+
+```
+
+
+```{r merge 2018-2021}
+
+scores <- rbind(pre_covid, covid_2020_21)
+
+```
+
 ```{r}
 library(readxl)
 
@@ -320,9 +397,6 @@ post_covid <- read_excel("../data/post_covid.xlsx",
 
 post_covid <- post_covid |>
   rename(`category` = `x1`)
-
-
-
 
 
 
@@ -399,85 +473,6 @@ colnames(winter) <- c("category", "number_children", "average", "number_below", 
 colnames(spring) <- c("category", "number_children", "average", "number_below", "percent_below", 
                                   "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding")
 
-
-
-
-```
-
-
-```{r cleanup spring_20-21}
-
-spring_2020_21 <- read_excel("../data/2020_21_HS.xlsx", 
-    sheet = "HS RAW ALL", range = "X4:AE50") |>
-    janitor::clean_names()
-
-spring_2020_21 <- cbind(expectations_20_21, spring_2020_21) |>
-      janitor::clean_names()
-  
-
-spring_2020_21 <- spring_2020_21 |>
-  rename(`category` = `x1`)
-
-spring_2020_21[1, 1] <- "Social-Emotional"
-
-spring_2020_21 <- spring_2020_21 |>
-  filter(!str_detect(category, "TOTAL")) 
-
-spring_2020_21 <- spring_2020_21 |>
- mutate(category = case_when(str_detect(category, pattern = "Language|Mathematics|Social-Emotional|Cognitive|Physical|Literacy") ~ category, TRUE ~ NA))
- 
- 
- # mutate(category = na_if(category, category == str_detect("Yrs")))
-  # mutate(category = case_when(category == str_detect("Lang") ~ "Language",
-#category == str_detect(...),
-#TRUE ~ "No category"))
-
-spring_2020_21 <- spring_2020_21 |>
-  fill(category, .direction = "down") |>
-  drop_na(bottom)
-
-spring_2020_21 <- spring_2020_21 |>
-  filter(!bottom %in% c("Widely Held Expectations", "Bottom"))
-
-spring_2020_21 <- spring_2020_21 |>
-mutate(across(2:11, as.numeric))
-
-spring_2020_21$percent_meeting <- as.numeric(spring_2020_21$percent_meeting) 
- spring_2020_21$percent_exceeding <- as.numeric(spring_2020_21$percent_exceeding)
- spring_2020_21$number_meeting <- as.numeric(spring_2020_21$number_meeting)
- spring_2020_21$number_exceeding <- as.numeric(spring_2020_21$number_exceeding)
-
-spring_2020_21 <- spring_2020_21 |>
-  mutate(season = "Spring") |>
-   mutate(year = "20-21")# |>
-
-```
-
-```{r 2020-21}
-
-covid_2020_21 <- rbind(fall_2020_21, winter_2020_21, spring_2020_21) |>
-  mutate(season = fct_relevel(season, "Fall", "Winter", "Spring"))
-
-covid_2020_21 <- covid_2020_21 |>
-mutate(across(2:11, as.numeric))
-
-covid_2020_21[is.na(covid_2020_21)] <- 0
-
-covid_2020_21 <- covid_2020_21 |>
-  mutate(number_meeting_exceeding = number_meeting + number_exceeding) |>
-mutate(percent_meeting_exceeding = percent_meeting + percent_exceeding) |>
-  select(-season, season) |>
-  select(-year, year)
-
-covid_2020_21 <- covid_2020_21 |>
-  select(-(number_meeting:percent_exceeding))
-
-```
-
-
-```{r merge 2018-2021}
-
-scores <- rbind(pre_covid, covid_2020_21)
 
 ```
 
