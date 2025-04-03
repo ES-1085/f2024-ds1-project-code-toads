@@ -177,6 +177,7 @@ ggplot(pre_covid_winter_2018_19_mean, aes(y = category, x = percent_meeting_exce
 
 ggsave("graph.png", width = 6, height = 4, dpi = 300)
 
+
 ggplot(pre_covid_spring_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
   geom_col() +
   labs(
@@ -207,6 +208,8 @@ ggplot(pre_covid_mean, aes(x = season, y = percent_meeting_exceeding, fill = cat
   facet_wrap(~category) +
   guides(fill = "none")+
   scale_fill_viridis_d()
+
+ggsave("graphs.png", width = 6, height = 4, dpi = 300)
 
 ```
 
