@@ -476,8 +476,28 @@ colnames(spring) <- c("category", "number_children", "average", "number_below", 
 
 ```
 
+```{r plots}
+
+score_fallspring <- scores |>
+  filter(season != "Winter") |>
+  group_by(category, season, year) |>
+  summarize(score_mean = mean(percent_meeting_exceeding))
 
 
+score_fallspring_wide <- score_fallspring |>
+  pivot_wider(names_from = season,
+              values_from = score_mean) |>
+  mutate(percent_increase = (Spring - Fall)/Fall) #|>
+ # pivot_wider(names_from = year,
+  #            values_from = percent_increase)
+
+
+score_fallspring_wide |>
+  summarize(percent_increase,-category)
+
+#result <- score_fallspring_wide[seq(1, nrow(score_fallspring_wide), 2),] - score_fallspring_wide[seq(2, nrow(score_fallspring_wide), 2),] 
+
+```
 
 
 
