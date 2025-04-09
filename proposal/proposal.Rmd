@@ -15,13 +15,16 @@ library(stringr)
 
 Our data comes from Promise Early Education, a Head Start and Early Head Start program that works with vulnerable children to encourage educational growth and measures their development in six key areas: social/emotional, physical, and language development, as well literacy, cognitive, and mathematics knowledge and skills. These datasets measure scores in these various domains for children aged 0-5 and determines whether they are meeting expectations based on the expected scores for each age range. The variables include bottom expected scores, top expected scores, # of children, average score, # of children below score range, % of children below score range, # of children in score range, % of children in score range, the domain tested, age of children, the season, and the year.
 
+We are hoping to explore the various trends seen within the promise early education, particularly the effect that the COVID-19 pandemic had on the several categories of child development in the years that followed it.
 We are hoping to explore the various trends seen within the promise early education, particularly the effect that the COVID-19 pandemic had on the several categories of child development in the years that followed it. In order to learn more about the work we are trying to accomplish we are going to set up a meeting with our community partners after break. 
 
 
 ## 2. Data
 
 
+
 ```{r cleanup fall-18-19}
+
 library(readxl)
 
 library(janitor)
@@ -57,6 +60,7 @@ pre_covid_fall_2018_19_mean <- pre_covid_fall_2018_19 |>
   group_by(category) |>
   summarize_at(vars("percent_meeting_exceeding"), mean, na.rm = TRUE)
 
+pre_covid_fall_2018_19_mean
 
 ```
 
@@ -167,9 +171,12 @@ ggplot(pre_covid_winter_2018_19_mean, aes(y = category, x = percent_meeting_exce
     x = "Percent Meeting/Exceeding",
     y = "Category",
     title = "Percent Meeting/Exceeding in Each Category for Winter 2018-19",
-    fill = "Category" 
-  ) +
+    fill = "Category") +
   xlim(0, 100)
+
+
+ggsave("graph.png", width = 6, height = 4, dpi = 300)
+
 
 ggplot(pre_covid_spring_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
   geom_col() +
@@ -201,6 +208,8 @@ ggplot(pre_covid_mean, aes(x = season, y = percent_meeting_exceeding, fill = cat
   facet_wrap(~category) +
   guides(fill = "none")+
   scale_fill_viridis_d()
+
+ggsave("graphs.png", width = 6, height = 4, dpi = 300)
 
 ```
 
@@ -296,8 +305,10 @@ winter_2020_21 <- winter_2020_21 |>
   mutate(season = "Winter") |>
    mutate(year = "20-21")
 
+glimpse(pre_covid_fall_2018_19)
 
 ```
+
 
 ```{r cleanup spring_20-21}
 
@@ -347,21 +358,148 @@ spring_2020_21 <- spring_2020_21 |>
 
 ```
 
-```{r 2020-21}
+```{r merge 2020-21}
 
-post_covid_2020_21 <- rbind(fall_2020_21, winter_2020_21, spring_2020_21) |>
+covid_2020_21 <- rbind(fall_2020_21, winter_2020_21, spring_2020_21) |>
   mutate(season = fct_relevel(season, "Fall", "Winter", "Spring"))
 
-post_covid_2020_21 <- post_covid_2020_21 |>
+covid_2020_21 <- covid_2020_21 |>
 mutate(across(2:11, as.numeric))
 
-post_covid_2020_21[is.na(post_covid_2020_21)] <- 0
+covid_2020_21[is.na(covid_2020_21)] <- 0
 
-post_covid_2020_21 <- post_covid_2020_21 |>
+covid_2020_21 <- covid_2020_21 |>
+  mutate(number_meeting_exceeding = number_meeting + number_exceeding) |>
 mutate(percent_meeting_exceeding = percent_meeting + percent_exceeding) |>
-  mutate(number_meeting_exceeding = number_meeting + number_exceeding)
+  select(-season, season) |>
+  select(-year, year)
+
+covid_2020_21 <- covid_2020_21 |>
+  select(-(number_meeting:percent_exceeding))
 
 ```
+
+
+```{r merge 2018-2021}
+
+scores <- rbind(pre_covid, covid_2020_21)
+
+```
+
+```{r}
+library(readxl)
+
+library(janitor)
+
+post_covid <- read_excel("../data/post_covid.xlsx",
+  range = "A3:K65") |>
+  janitor::clean_names()
+
+post_covid <- post_covid |>
+  rename(`category` = `x1`)
+
+
+
+post_covid <- post_covid %>% filter(!if_all(-1, is.na)) #removes rows of all NA
+post_covid <- post_covid[, -c(2,3)]
+post_covid <- post_covid %>% filter(!is.na(average))
+
+
+
+post_covid[1:5, 1] <- "Social Emotional"
+post_covid[6:10, 1] <- "Physical"
+post_covid[11:15, 1] <- "Language"
+post_covid[16:20, 1] <- "Cognitive"
+post_covid[21:25, 1] <- "Literacy"
+post_covid[26:30, 1] <- "Mathematics"
+
+#view(post_covid)
+fall <- post_covid[-c(5, 10, 15, 20, 25, 30), ]
+view(fall)
+
+
+
+```
+
+```{r post_covid_winter}
+post_covid_win_spr <- read_excel("../data/post_covid.xlsx",
+  range = "M3:AE65") |>
+  janitor::clean_names()
+
+post_covid_win_spr <- post_covid_win_spr |>
+  rename(`category` = `x1`) |>
+  rename(`category_1` = `x11`)
+
+
+post_covid_win_spr <- post_covid_win_spr %>% filter(!if_all(-1, is.na)) #removes rows of all NA
+post_covid_win_spr <- post_covid_win_spr %>% filter(!is.na(average_3))
+
+
+
+
+post_covid_win_spr[1:5, 1] <- "Social Emotional"
+post_covid_win_spr[6:10, 1] <- "Physical"
+post_covid_win_spr[11:15, 1] <- "Language"
+post_covid_win_spr[16:20, 1] <- "Cognitive"
+post_covid_win_spr[21:25, 1] <- "Literacy"
+post_covid_win_spr[26:30, 1] <- "Mathematics"
+
+post_covid_win_spr[1:5, 11][is.na(post_covid_win_spr[1:5, 10])] <- "Social Emotional"
+post_covid_win_spr[6:10, 11][is.na(post_covid_win_spr[6:10, 10])] <- "Physical"
+post_covid_win_spr[11:15, 11][is.na(post_covid_win_spr[11:15, 10])] <- "Language"
+post_covid_win_spr[16:20, 11][is.na(post_covid_win_spr[16:20, 10])] <- "Cognitive"
+post_covid_win_spr[21:25, 11][is.na(post_covid_win_spr[21:25, 10])] <- "Literacy"
+post_covid_win_spr[26:30, 11][is.na(post_covid_win_spr[26:30, 10])] <- "Mathematics"
+
+
+
+post_covid_win_spr <- post_covid_win_spr[-c(5, 10, 15, 20, 25, 30),]
+post_covid_win_spr <- post_covid_win_spr[, -c(10)]
+
+view(post_covid_win_spr)
+
+
+
+```
+
+```{r merging-post_covid}
+
+winter <- post_covid_win_spr[, 1:9]  # Columns 1 to 10
+spring <- post_covid_win_spr[, 10:ncol(post_covid_win_spr)]
+
+colnames(winter) <- c("category", "number_children", "average", "number_below", "percent_below", 
+                                  "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding")
+
+colnames(spring) <- c("category", "number_children", "average", "number_below", "percent_below", 
+                                  "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding")
+
+
+```
+
+```{r plots}
+
+score_fallspring <- scores |>
+  filter(season != "Winter") |>
+  group_by(category, season, year) |>
+  summarize(score_mean = mean(percent_meeting_exceeding))
+
+
+score_fallspring_wide <- score_fallspring |>
+  pivot_wider(names_from = season,
+              values_from = score_mean) |>
+  mutate(percent_increase = (Spring - Fall)/Fall) #|>
+ # pivot_wider(names_from = year,
+  #            values_from = percent_increase)
+
+
+score_fallspring_wide |>
+  summarize(percent_increase,-category)
+
+#result <- score_fallspring_wide[seq(1, nrow(score_fallspring_wide), 2),] - score_fallspring_wide[seq(2, nrow(score_fallspring_wide), 2),] 
+
+```
+
+
 
 ## 3. Data analysis plan
 We are going to be exploring patterns before and after COVID-19 to visualize the effect that the COVID-19 pandemic has had on the several categories of child development. One variable that is going to be useful in this is,% Meeting/Exceeding, t`o see if these numbers differed before and after COVID-19. We intend to create a scatter plot, and use faceting since they are many different times we are comparing.  We have so much data, so we don't think we need additional data, but we are going to need to tidy up the data to make it easier to analyze.
