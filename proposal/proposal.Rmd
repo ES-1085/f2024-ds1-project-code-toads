@@ -409,7 +409,7 @@ post_covid <- post_covid %>% filter(!is.na(average))
 
 
 
-post_covid[1:5, 1] <- "Social Emotional"
+post_covid[1:5, 1] <- "Social-Emotional"
 post_covid[6:10, 1] <- "Physical"
 post_covid[11:15, 1] <- "Language"
 post_covid[16:20, 1] <- "Cognitive"
@@ -418,7 +418,7 @@ post_covid[26:30, 1] <- "Mathematics"
 
 #view(post_covid)
 fall <- post_covid[-c(5, 10, 15, 20, 25, 30), ]
-view(fall)
+#view(fall)
 
 
 
@@ -440,14 +440,14 @@ post_covid_win_spr <- post_covid_win_spr %>% filter(!is.na(average_3))
 
 
 
-post_covid_win_spr[1:5, 1] <- "Social Emotional"
+post_covid_win_spr[1:5, 1] <- "Social-Emotional"
 post_covid_win_spr[6:10, 1] <- "Physical"
 post_covid_win_spr[11:15, 1] <- "Language"
 post_covid_win_spr[16:20, 1] <- "Cognitive"
 post_covid_win_spr[21:25, 1] <- "Literacy"
 post_covid_win_spr[26:30, 1] <- "Mathematics"
 
-post_covid_win_spr[1:5, 11][is.na(post_covid_win_spr[1:5, 10])] <- "Social Emotional"
+post_covid_win_spr[1:5, 11][is.na(post_covid_win_spr[1:5, 10])] <- "Social-Emotional"
 post_covid_win_spr[6:10, 11][is.na(post_covid_win_spr[6:10, 10])] <- "Physical"
 post_covid_win_spr[11:15, 11][is.na(post_covid_win_spr[11:15, 10])] <- "Language"
 post_covid_win_spr[16:20, 11][is.na(post_covid_win_spr[16:20, 10])] <- "Cognitive"
@@ -459,7 +459,7 @@ post_covid_win_spr[26:30, 11][is.na(post_covid_win_spr[26:30, 10])] <- "Mathemat
 post_covid_win_spr <- post_covid_win_spr[-c(5, 10, 15, 20, 25, 30),]
 post_covid_win_spr <- post_covid_win_spr[, -c(10)]
 
-view(post_covid_win_spr)
+#view(post_covid_win_spr)
 
 
 
@@ -469,7 +469,7 @@ view(post_covid_win_spr)
 #create season column
 fall <- fall %>%
   mutate(season = "Fall")
-view(fall)
+#view(fall)
 
 winter <- post_covid_win_spr[, 1:9]  # Columns 1 to 10
 winter <- winter %>%
@@ -482,17 +482,17 @@ spring <- spring %>%
 #rename columns
 colnames(winter) <- c("category", "number_children", "average", "number_below", "percent_below", 
                                   "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding", "season")
-view(winter)
+#view(winter)
 
 colnames(spring) <- c("category", "number_children", "average", "number_below", "percent_below", 
                                   "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding", "season")
-view(spring)
+#view(spring)
 
 #merge dfs
 
 post_covid_final  <- rbind(fall, winter, spring)
 
-view(post_covid_final)
+#view(post_covid_final)
               
 post_covid_final <- post_covid_final |>
 mutate(across(2:9, as.numeric))          
@@ -540,7 +540,11 @@ score_fallspring_wide <- score_fallspring |>
 scores<-scores |>
   select(-(bottom:top))
 
+
+
 scores <- rbind(scores, post_covid_final)
+
+scores[is.na(scores)] <- 0
 
 scores_mean <- scores |>
   group_by(category, season,year) |>
@@ -552,7 +556,18 @@ scores_mean <- scores |>
 
 
 
-ggplot(scores, aes(x = "Season", y = ""))
+ggplot(scores_mean, aes(x = season, y = percent_meeting_exceeding, group = category, color = category)) +
+  geom_line() + 
+  geom_point() +
+  labs(
+    title = "Academic Performace by Category per Season",
+    subtitle = "Faceted by Era of Covid",
+    x = "Season",
+    y = "Percent Meeting/Exceeding",
+  ) +
+  facet_wrap(~ year, ncol = 3) 
+  
+  
 
 ```
 
