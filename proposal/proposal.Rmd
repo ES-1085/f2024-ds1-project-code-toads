@@ -386,7 +386,7 @@ scores <- rbind(pre_covid, covid_2020_21)
 
 ```
 
-```{r}
+```{r post-covid-fall-cleanup}
 library(readxl)
 
 library(janitor)
@@ -397,6 +397,9 @@ post_covid <- read_excel("../data/post_covid.xlsx",
 
 post_covid <- post_covid |>
   rename(`category` = `x1`)
+
+
+
 
 
 
@@ -421,7 +424,7 @@ view(fall)
 
 ```
 
-```{r post_covid_winter}
+```{r post-covid-winter-spr-cleanup}
 post_covid_win_spr <- read_excel("../data/post_covid.xlsx",
   range = "M3:AE65") |>
   janitor::clean_names()
@@ -463,15 +466,33 @@ view(post_covid_win_spr)
 ```
 
 ```{r merging-post_covid}
+#create season column
+fall <- fall %>%
+  mutate(season = "Fall")
+view(fall)
 
 winter <- post_covid_win_spr[, 1:9]  # Columns 1 to 10
-spring <- post_covid_win_spr[, 10:ncol(post_covid_win_spr)]
+winter <- winter %>%
+  mutate(season = "Winter")
 
+spring <- post_covid_win_spr[, 10:ncol(post_covid_win_spr)]
+spring <- spring %>%
+  mutate(season = "Spring")
+
+#rename columns
 colnames(winter) <- c("category", "number_children", "average", "number_below", "percent_below", 
-                                  "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding")
+                                  "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding", "season")
+view(winter)
 
 colnames(spring) <- c("category", "number_children", "average", "number_below", "percent_below", 
-                                  "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding")
+                                  "number_meeting", "percent_meeting", "number_exceeding", "percent_exceeding", "season")
+view(spring)
+
+#merge dfs
+
+post_covid_final  <- rbind(fall, winter, spring)
+view(post_covid_final)
+                                
 
 
 ```
