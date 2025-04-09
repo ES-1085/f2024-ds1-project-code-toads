@@ -871,7 +871,11 @@ post_covid_final &lt;- post_covid_final |&gt;
 <pre class="r"><code>scores&lt;-scores |&gt;
   select(-(bottom:top))
 
-scores &lt;- rbind(scores, post_covid_final)</code></pre>
+scores &lt;- rbind(scores, post_covid_final)
+
+scores_mean &lt;- scores |&gt;
+  group_by(category, season,year) |&gt;
+  summarize_at(vars(&quot;percent_meeting_exceeding&quot;), mean, na.rm = TRUE)</code></pre>
 </div>
 <div id="data-analysis-plan" class="section level2">
 <h2>3. Data analysis plan</h2>
