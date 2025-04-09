@@ -513,8 +513,8 @@ score_fallspring_wide <- score_fallspring |>
   #            values_from = percent_increase)
 
 
-#score_fallspring_wide |>
- # summarize(percent_increase,-category)
+##score_fallspring_wide |>
+ ## summarize(percent_increase,-category)
 
 #result <- score_fallspring_wide[seq(1, nrow(score_fallspring_wide), 2),] - score_fallspring_wide[seq(2, nrow(score_fallspring_wide), 2),] 
 
