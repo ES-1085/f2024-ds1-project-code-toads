@@ -491,8 +491,24 @@ view(spring)
 #merge dfs
 
 post_covid_final  <- rbind(fall, winter, spring)
+
 view(post_covid_final)
-                                
+              
+post_covid_final <- post_covid_final |>
+mutate(across(2:9, as.numeric))          
+
+#post_covid_final[is.na(post_covid_final)] <- 0
+
+post_covid_final <- post_covid_final |>
+  mutate(number_meeting_exceeding = number_meeting + number_exceeding) |>
+mutate(percent_meeting_exceeding = percent_meeting + percent_exceeding) |>
+ mutate(year = "22-23") |>
+  select(-season, season) |>
+  select(-year, year)
+
+post_covid_final <- post_covid_final |>
+  select(-(number_meeting:percent_exceeding))
+
 
 
 ```
@@ -519,7 +535,15 @@ score_fallspring_wide <- score_fallspring |>
 #result <- score_fallspring_wide[seq(1, nrow(score_fallspring_wide), 2),] - score_fallspring_wide[seq(2, nrow(score_fallspring_wide), 2),] 
 
 ```
+```{r final-combine}
 
+scores<-scores |>
+  select(-(bottom:top))
+
+scores <- rbind(scores, post_covid_final)
+
+
+```
 
 
 ## 3. Data analysis plan
