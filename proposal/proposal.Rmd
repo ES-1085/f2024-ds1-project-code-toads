@@ -211,7 +211,7 @@ ggplot(pre_covid_mean, aes(x = season, y = percent_meeting_exceeding, fill = cat
   guides(fill = "none")+
   scale_fill_viridis_d()
 
-ggsave("graphs.png", width = 6, height = 4, dpi = 300)
+ggsave("18_19_graphs.png", width = 6, height = 4, dpi = 300)
 
 ```
 
@@ -554,7 +554,7 @@ scores_mean <- scores |>
 
 ```
 
-```{r covid-line-plot}
+```{r covid-line-plot, fig.alt = c("Three line plots faceted by year that show the percentage of children that scored at or above expectations, with one line for each category. There is an upward trend for all categories in the years `18-`19 and `20-`21")}
 
 
 
