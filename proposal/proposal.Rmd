@@ -209,7 +209,10 @@ ggplot(pre_covid_mean, aes(x = season, y = percent_meeting_exceeding, fill = cat
   ylim(0, 100) +
   facet_wrap(~category) +
   guides(fill = "none")+
-  scale_fill_viridis_d()
+  theme(
+  plot.background = element_rect(fill="white")
+  ) +
+  scale_fill_viridis_d() 
 
 ggsave("18_19_graphs.png", width = 6, height = 4, dpi = 300)
 
@@ -566,15 +569,16 @@ ggplot(scores_mean, aes(x = season, y = percent_meeting_exceeding, group = categ
     subtitle = "Grouped by COVID-19 Era: Pre, During, and Post",
     x = "Season",
     y = "Percent Meeting/Exceeding",
-    color = "Category"
+    color = "Category",
   ) +
   facet_wrap(~ year, ncol = 3) +
   scale_color_brewer(palette = "RdBu")+ 
   theme_minimal() +
   theme(
   legend.position = "bottom",
-  legend.direction = "horizontal"
-  )
+  legend.direction = "horizontal",
+plot.background = element_rect(fill="white")  
+)
 
 ggsave("covid_line_plot.png", width = 6, height = 4, dpi = 300)
 ```
@@ -619,7 +623,8 @@ ggplot(scores_long, aes(x = period_season, y = category, fill = percent)) +
   theme_minimal() +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1), #slanting labels
-    strip.text = element_text(size = 12, face = "bold")
+    strip.text = element_text(size = 12, face = "bold"),
+    plot.background = element_rect(fill="white")  
   )
 
 
