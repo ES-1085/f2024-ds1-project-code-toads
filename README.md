@@ -1,6 +1,6 @@
 Promise Early Education
 ================
-by Team name
+by Katie, Soren, and Fred
 
 ## Summary
 
