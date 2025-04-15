@@ -535,6 +535,7 @@ score_fallspring_wide <- score_fallspring |>
 #result <- score_fallspring_wide[seq(1, nrow(score_fallspring_wide), 2),] - score_fallspring_wide[seq(2, nrow(score_fallspring_wide), 2),] 
 
 ```
+
 ```{r final-combine}
 
 scores<-scores |>
@@ -574,7 +575,55 @@ ggplot(scores_mean, aes(x = season, y = percent_meeting_exceeding, group = categ
   legend.direction = "horizontal"
   )
 
-#ggsave("simple_plot.png", plot = plot, width = 6, height = 4, dpi = 300)
+ggsave("covid_line_plot.png", width = 6, height = 4, dpi = 300)
+```
+
+
+
+
+```{r category-heatmap}
+scores_mean <- scores_mean %>%
+  mutate(period_season = paste(year, season, sep = "-"))
+
+scores_mean <- scores_mean %>%
+  mutate(
+    percent_below = 100 - percent_meeting_exceeding
+  )
+
+scores_long <- scores_mean %>%
+  pivot_longer(
+    cols = c(percent_meeting_exceeding, percent_below),
+    names_to = "type",
+    values_to = "percent"
+  )
+
+
+
+library(ggplot2)
+
+ggplot(scores_long, aes(x = period_season, y = category, fill = percent)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "lightyellow", high = "darkred") +
+  facet_wrap(~ type, labeller = as_labeller(c(
+    percent_meeting_exceeding = "Meeting/Exceeding",
+    percent_below = "Below Expectations"
+  ))) +
+  labs(
+    title = "Student Performance Across COVID Periods and Seasons",
+    x = "Year - Season",
+    y = "Category",
+    fill = "% of Students"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1), #slanting labels
+    strip.text = element_text(size = 12, face = "bold")
+  )
+
+
+ggsave("performance_heatmap.png", width = 6, height = 4, dpi = 300)
+
+
 ```
 
 ## 3. Data analysis plan
