@@ -535,6 +535,7 @@ score_fallspring_wide <- score_fallspring |>
 #result <- score_fallspring_wide[seq(1, nrow(score_fallspring_wide), 2),] - score_fallspring_wide[seq(2, nrow(score_fallspring_wide), 2),] 
 
 ```
+
 ```{r final-combine}
 
 scores<-scores |>
