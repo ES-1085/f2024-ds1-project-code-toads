@@ -350,8 +350,6 @@ post_covid_win_spr <- post_covid_win_spr %>% filter(!if_all(-1, is.na)) #removes
 post_covid_win_spr <- post_covid_win_spr %>% filter(!is.na(average_3))
 
 
-
-
 post_covid_win_spr[1:5, 1] <- "Social-Emotional"
 post_covid_win_spr[6:10, 1] <- "Physical"
 post_covid_win_spr[11:15, 1] <- "Language"
