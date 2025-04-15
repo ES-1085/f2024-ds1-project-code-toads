@@ -575,7 +575,7 @@ ggplot(scores_mean, aes(x = season, y = percent_meeting_exceeding, group = categ
   legend.direction = "horizontal"
   )
 
-#ggsave("simple_plot.png", plot = plot, width = 6, height = 4, dpi = 300)
+ggsave("covid_line_plot.png", width = 6, height = 4, dpi = 300)
 ```
 
 
@@ -619,6 +619,9 @@ ggplot(scores_long, aes(x = period_season, y = category, fill = percent)) +
     axis.text.x = element_text(angle = 45, hjust = 1), #slanting labels
     strip.text = element_text(size = 12, face = "bold")
   )
+
+
+ggsave("performance_heatmap.png", width = 6, height = 4, dpi = 300)
 
 
 ```
