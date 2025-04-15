@@ -151,7 +151,7 @@ pre_covid_spring_2018_19_mean <- pre_covid_spring_2018_19 |>
 
 ```
 
-```{r mean-plots-18-19}
+```{r first-plots-18-19}
 
 ##plots showing mean scores through each season for 2018-19
 
@@ -175,9 +175,6 @@ ggplot(pre_covid_winter_2018_19_mean, aes(y = category, x = percent_meeting_exce
   xlim(0, 100)
 
 
-ggsave("graph.png", width = 6, height = 4, dpi = 300)
-
-
 ggplot(pre_covid_spring_2018_19_mean, aes(y = category, x = percent_meeting_exceeding, fill = category)) +
   geom_col() +
   labs(
@@ -188,6 +185,10 @@ ggplot(pre_covid_spring_2018_19_mean, aes(y = category, x = percent_meeting_exce
   )  +
   xlim(0, 100)
 
+
+```
+
+```{r mean-plot-18-19,  fig.alt = c("Bar graphs faceted by test category that show percentage of children at or above expectations over Fall, Winter, and Spring for the year '18-'19. For all categories, Cognitive, Language, Literacy, Mathematics, Physical, and Social-Emotional, there is an upward trend as the year goes on.")}
 pre_covid <- pre_covid |>
 mutate(across(2:9, as.numeric))
 
@@ -202,7 +203,8 @@ ggplot(pre_covid_mean, aes(x = season, y = percent_meeting_exceeding, fill = cat
   labs(
     y = "Percent Meeting/Exceeding",
     x = "Season",
-    title = "Percent Meeting/Exceeding in Each Category for Year 2018-19",
+    title = "Percent of Children Meeting/Exceeding Test Score Expectations in Each Category",
+    subtitle = "For Year 2018-19",
     fill = "Category")  +
   ylim(0, 100) +
   facet_wrap(~category) +
@@ -542,7 +544,6 @@ scores<-scores |>
   select(-(bottom:top))
 
 
-
 scores <- rbind(scores, post_covid_final)
 
 scores[is.na(scores)] <- 0
@@ -581,7 +582,8 @@ ggsave("covid_line_plot.png", width = 6, height = 4, dpi = 300)
 
 
 
-```{r category-heatmap}
+```{r category-heatmap, fig.alt = c("Two heat maps that show either the percentage of children that scored below expectation or meeting/exceeding expectations in test scores for different categories across seasons and years. All seasons across the year '22-'23 generally have lower percentage of children at or above the threshold")}
+
 scores_mean <- scores_mean %>%
   mutate(period_season = paste(year, season, sep = "-"))
 
