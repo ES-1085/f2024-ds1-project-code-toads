@@ -610,10 +610,6 @@ library(ggplot2)
 ggplot(scores_long, aes(x = period_season, y = category, fill = percent)) +
   geom_tile(color = "white") +
   scale_fill_gradient(low = "lightyellow", high = "darkred") +
-  facet_wrap(~ type, labeller = as_labeller(c(
-    percent_meeting_exceeding = "Meeting/Exceeding",
-    percent_below = "Below Expectations"
-  ))) +
   labs(
     title = "Student Performance Across COVID Periods and Seasons",
     x = "Year - Season",
@@ -628,7 +624,7 @@ ggplot(scores_long, aes(x = period_season, y = category, fill = percent)) +
   )
 
 
-ggsave("performance_heatmap.png", width = 10, height = 6, dpi = 300)
+ggsave("performance_heatmap.png", width = 7.5, height = 4.5, dpi = 300)
 
 
 ```
