@@ -458,7 +458,7 @@ ggsave("example-starwars-wide.png", width = 6, height = 4)
 
 
 
-### Plot 1: _________
+### Plot 1: Mean Scores Plot
 
 #### Data cleanup steps specific to plot 1
 
@@ -466,13 +466,40 @@ These data cleaning sections are optional and depend on if you have some data cl
 
 ```{r}
 
+pre_covid[is.na(pre_covid)] <- 0
+
+pre_covid_mean <- pre_covid |>
+  group_by(category, season) |>
+  summarize_at(vars("percent_meeting_exceeding"), mean, na.rm = TRUE)
+
+
 
 ```
 
 
 #### Final Plot 1
 
-```{r}
+```{r mean-plot-18-19,  fig.alt = c("Bar graphs faceted by test category that show percentage of children at or above expectations over Fall, Winter, and Spring for the year '18-'19. For all categories, Cognitive, Language, Literacy, Mathematics, Physical, and Social-Emotional, there is an upward trend as the year goes on.")}
+
+
+ggplot(pre_covid_mean, aes(x = season, y = percent_meeting_exceeding, fill = category)) +
+  geom_col() +
+  labs(
+    y = "Percent Meeting/Exceeding",
+    x = "Season",
+    title = "Percent of Children Meeting/Exceeding Test Score Expectations in Each Category",
+    subtitle = "For Year 2018-19",
+    fill = "Category")  +
+  ylim(0, 100) +
+  facet_wrap(~category) +
+  guides(fill = "none")+
+  theme(
+  plot.background = element_rect(fill="white")
+  ) +
+  scale_fill_viridis_d() 
+
+ggsave("18_19_graphs.png", width = 6, height = 4, dpi = 300)
+
 
 ```
 
