@@ -8,18 +8,19 @@ For our final project we worked with data from Promise Early Education. Promise 
 
 ## Handout
 
-Our presentation can be found [here](handout/handout.pdf). You can update the filename and extension of your handout.
+Our presentation can be found [https://www.canva.com/design/DAGkue0BnUU/lOZB6gk4Z8BhL15c8tdO4g/edit?utm_content=DAGkue0BnUU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton](file:///Users/katherinekortekaas/Downloads/Promise%20Early%20Education.pdf).
 
 ## Memo
 
-A link to the code and how we created our graphics in our memo can be found [https://www.canva.com/design/DAGkue0BnUU/lOZB6gk4Z8BhL15c8tdO4g/edit?utm_content=DAGkue0BnUU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton](memo/memo.html).
+A link to the code and how we created our graphics in our memo can be found (memo/memo.html).
 
 ## Data
 
-Include a citation for your data here. See
-<http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840> for guidance
-on proper citation for datasets. If you got your data off the web, make
-sure to note the retrieval date.
+Promise Early Education. *2018–2019 TSG Comparative FWS (Pre-COVID)*. Deidentified dataset. Bates College, 2019.
+
+Promise Early Education. *2020-2021 TSG Comparative FWS (Pre-COVID)*. Deidentified dataset. Bates College, 2021.
+
+Promise Early Education. *2022-2023 TSG Comparative FWS (Pre-COVID)*. Deidentified dataset. Bates College, 2023.
 
 ## References
 
