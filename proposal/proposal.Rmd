@@ -586,7 +586,7 @@ ggsave("covid_line_plot.png", width = 6, height = 4, dpi = 300)
 
 
 
-```{r category-heatmap, fig.alt = c("Two heat maps that show either the percentage of children that scored below expectation or meeting/exceeding expectations in test scores for different categories across seasons and years. All seasons across the year '22-'23 generally have lower percentage of children at or above the threshold")}
+```{r category-heatmap, fig.alt = c("Heat map that shows the percentage of children that scored below expectation or meeting/exceeding expectations in test scores for different categories across seasons and years. All seasons across the year '22-'23 generally have lower percentage of children at or above the threshold")}
 
 scores_mean <- scores_mean %>%
   mutate(period_season = paste(year, season, sep = "-"))
@@ -604,16 +604,17 @@ scores_long <- scores_mean %>%
   )
 
 
+scores_long_combined <- scores_long %>%
+  mutate(status = ifelse(type == "percent_meeting_exceeding", "Meeting/Exceeding", "Below Expectations"))
+
+
+
 
 library(ggplot2)
 
-ggplot(scores_long, aes(x = period_season, y = category, fill = percent)) +
+ggplot(scores_long_combined, aes(x = period_season, y = category, fill = percent)) +
   geom_tile(color = "white") +
   scale_fill_gradient(low = "lightyellow", high = "darkred") +
-  facet_wrap(~ type, labeller = as_labeller(c(
-    percent_meeting_exceeding = "Meeting/Exceeding",
-    percent_below = "Below Expectations"
-  ))) +
   labs(
     title = "Student Performance Across COVID Periods and Seasons",
     x = "Year - Season",
@@ -622,13 +623,14 @@ ggplot(scores_long, aes(x = period_season, y = category, fill = percent)) +
   ) +
   theme_minimal() +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1), #slanting labels
-    strip.text = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1), # slanting labels
     plot.background = element_rect(fill="white")  
   )
 
-
 ggsave("performance_heatmap.png", width = 10, height = 4, dpi = 300)
+
+
+
 
 
 ```
