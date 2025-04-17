@@ -12,7 +12,7 @@ Our presentation can be found [here](handout/handout.pdf). You can update the fi
 
 ## Memo
 
-A link to the code and how we created our graphics in our memo can be found [here](memo/memo.html).
+A link to the code and how we created our graphics in our memo can be found [https://www.canva.com/design/DAGkue0BnUU/lOZB6gk4Z8BhL15c8tdO4g/edit?utm_content=DAGkue0BnUU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton](memo/memo.html).
 
 ## Data
 
