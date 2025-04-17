@@ -203,8 +203,8 @@ ggplot(pre_covid_mean, aes(x = season, y = percent_meeting_exceeding, fill = cat
   labs(
     y = "Percent Meeting/Exceeding",
     x = "Season",
-    title = "Percent of Children Meeting/Exceeding Test Score Expectations in Each Category",
-    subtitle = "For Year 2018-19",
+    title = "Percent of Children Meeting/Exceeding Test Score Expectations",
+    subtitle = "For the Year 2018-19",
     fill = "Category")  +
   ylim(0, 100) +
   facet_wrap(~category) +
@@ -214,7 +214,7 @@ ggplot(pre_covid_mean, aes(x = season, y = percent_meeting_exceeding, fill = cat
   ) +
   scale_fill_viridis_d() 
 
-ggsave("18_19_graphs.png", width = 6, height = 4, dpi = 300)
+ggsave("18_19_graphs.png", width = 7.5, height = 5, dpi = 300)
 
 ```
 
@@ -580,7 +580,7 @@ ggplot(scores_mean, aes(x = season, y = percent_meeting_exceeding, group = categ
 plot.background = element_rect(fill="white")  
 )
 
-ggsave("covid_line_plot.png", width = 6, height = 4, dpi = 300)
+ggsave("covid_line_plot.png", width = 8.5, height = 5, dpi = 300)
 ```
 
 
@@ -627,7 +627,12 @@ ggplot(scores_long_combined, aes(x = period_season, y = category, fill = percent
     plot.background = element_rect(fill="white")  
   )
 
+<<<<<<< HEAD
 ggsave("performance_heatmap.png", width = 10, height = 4, dpi = 300)
+=======
+
+ggsave("performance_heatmap.png", width = 7.5, height = 4.5, dpi = 300)
+>>>>>>> fc5fc6eb44cad9822e1a35263a0980cc7d56a2cb
 
 
 
