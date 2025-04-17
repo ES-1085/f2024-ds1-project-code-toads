@@ -627,12 +627,10 @@ ggplot(scores_long_combined, aes(x = period_season, y = category, fill = percent
     plot.background = element_rect(fill="white")  
   )
 
-<<<<<<< HEAD
-ggsave("performance_heatmap.png", width = 10, height = 4, dpi = 300)
-=======
+
 
 ggsave("performance_heatmap.png", width = 7.5, height = 4.5, dpi = 300)
->>>>>>> fc5fc6eb44cad9822e1a35263a0980cc7d56a2cb
+
 
 
 
