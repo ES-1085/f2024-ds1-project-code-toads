@@ -553,6 +553,8 @@ scores <- rbind(scores, post_covid_final)
 #scores[is.na(scores)] <- 0
 scores <- scores |> mutate(across(where(is.numeric), ~replace_na(., 0)))
 
+
+
 scores_mean <- scores |>
   group_by(category, season,year) |>
   summarize_at(vars("percent_meeting_exceeding"), mean, na.rm = TRUE)
