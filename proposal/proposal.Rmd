@@ -379,7 +379,7 @@ mutate(percent_meeting_exceeding = percent_meeting + percent_exceeding) |>
   select(-season, season) |>
   select(-year, year)
 
-covid_2020_21 <- covid_2020_21 |>
+covid_2020_21 <- covid_2020_21
 ##### FINAL MERGE #######
 
 ```
@@ -543,8 +543,10 @@ score_fallspring_wide <- score_fallspring |>
 
 ```{r final-combine}
 
-scores<-scores |>
-  select(-(bottom:top))
+#scores<-scores |>
+  #select(-(bottom:top))
+scores <- scores |>
+  select(-any_of(c("bottom", "top")))
 
 
 scores <- rbind(scores, post_covid_final)

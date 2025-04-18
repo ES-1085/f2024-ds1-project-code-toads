@@ -422,13 +422,24 @@ post_covid_final <- post_covid_final |>
 
 ##### FINAL MERGE #######
 
+#scores<-scores |>
+  #select(-(bottom:top))
+
+
+#scores <- rbind(scores, post_covid_final)
+
+#scores[is.na(scores)] <- 0
 scores<-scores |>
   select(-(bottom:top))
 
 
 scores <- rbind(scores, post_covid_final)
 
-scores[is.na(scores)] <- 0
+#scores[is.na(scores)] <- 0
+
+scores_mean <- scores |>
+  group_by(category, season,year) |>
+  summarize_at(vars("percent_meeting_exceeding"), mean, na.rm = TRUE)
 ```
 
 
@@ -464,9 +475,10 @@ ggsave("example-starwars-wide.png", width = 6, height = 4)
 
 These data cleaning sections are optional and depend on if you have some data cleaning steps specific to a particular plot
 
-```{r}
+```{r data-cleaning-plot1}
 
-pre_covid[is.na(pre_covid)] <- 0
+#pre_covid[is.na(pre_covid)] <- 0
+
 
 pre_covid_mean <- pre_covid |>
   group_by(category, season) |>
@@ -529,13 +541,17 @@ score_fallspring_wide <- score_fallspring |>
 
 #result <- score_fallspring_wide[seq(1, nrow(score_fallspring_wide), 2),] - score_fallspring_wide[seq(2, nrow(score_fallspring_wide), 2),] 
 
-scores<-scores |>
-  select(-(bottom:top))
+#scores<-scores |>
+#select(-(bottom:top))
+scores <- scores |> select(-any_of(c("bottom", "top")))
+
+
 
 
 scores <- rbind(scores, post_covid_final)
 
-scores[is.na(scores)] <- 0
+#scores[is.na(scores)] <- 0
+scores <- scores |> mutate(across(where(is.numeric), ~replace_na(., 0)))
 
 scores_mean <- scores |>
   group_by(category, season,year) |>
