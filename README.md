@@ -12,7 +12,7 @@ Our presentation can be found [https://www.canva.com/design/DAGkue0BnUU/lOZB6gk4
 
 ## Memo
 
-A link to the code and how we created our graphics in our memo can be found (memo/memo.html).
+A link to the code and how we created our graphics in our memo can be found (https://549a0fd78bf7466f96763d510d820753.app.posit.cloud/file_show?path=%2Ftmp%2FRtmpaRbUVE%2Fpreview-89131592106.html).
 
 ## Data
 
