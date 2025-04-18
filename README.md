@@ -8,7 +8,7 @@ For our final project we worked with data from Promise Early Education. Promise 
 
 ## Handout
 
-Our presentation can be found [https://www.canva.com/design/DAGkue0BnUU/lOZB6gk4Z8BhL15c8tdO4g/edit?utm_content=DAGkue0BnUU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton](file:///Users/katherinekortekaas/Downloads/Promise%20Early%20Education.pdf).
+Our presentation can be found (https://www.canva.com/design/DAGkue0BnUU/lOZB6gk4Z8BhL15c8tdO4g/edit?utm_content=DAGkue0BnUU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)(file:///Users/katherinekortekaas/Downloads/Promise%20Early%20Education.pdf).
 
 ## Memo
 
